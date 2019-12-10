@@ -26,7 +26,7 @@ public class AlertHandler extends TimerTask {
     public void run() {
         Api _a = new Api();
         try {
-            JDA jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xe_ERg.TFjrD5RIGd6Y6xSzKISIcWh1tuY").build().awaitReady();
+            JDA jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xe_edQ.BpbyuVh-RMX8QL0qv97Bn10a56Y").build().awaitReady();
             if (this.isSetGameOnline()) {
                 jda.getPresence().setActivity(Activity.playing("Online!"));
             }

@@ -88,10 +88,12 @@ public class CommandHandler {
                 }
                 channel.sendMessage("WHERE MY SQUAD? " + squad).queue();
             }
-
         }
         else if (command.equalsIgnoreCase("!love")) {
             channel.sendMessage(":heart: **We love DOPE** :heart:").queue();
+        }
+        else if (command.equalsIgnoreCase("!logs")) {
+            channel.sendMessage("DOPE Logs path: `%appdata%\\DOPE\\Logs`").queue();
         }
         else if (command.equalsIgnoreCase("!link")) {
             String link = "Web URL - **" + Variables.getWebURL() + "**";
@@ -162,7 +164,6 @@ public class CommandHandler {
             version.setDescription("Make sure what You use latest DOPE version!");
             version.addField("Current game version", GetDataClassFromJson.get_data21(), false);
             version.addField("Supported game version", GetDataClassFromJson.get_data24(), false);
-            //version.addField("Latest DOPE & Cli version", GetDataClassFromJson.get_data22(),false);
             if (GetDataClassFromJson.get_data22().equals(GetDataClassFromJson.get_data23()))
             {
                 version.addField("Latest DOPE & Cli version", GetDataClassFromJson.get_data22(),false);
@@ -205,38 +206,30 @@ public class CommandHandler {
     private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event) {
         if (message.getMentionedUsers().toString().contains(Users.getPowerOfDark()) ||
                 message.getMentionedUsers().toString().contains(Users.getFrontendDev())) {
-            String ID[] = {
-                    "271686004035813387",
-                    "270647751941947393",
-                    "609397286757466133",
-                    "334354840438439938",
-                    "140422565393858560",
-                    "206781133596262401",
-                    "396067257760874496",
-                    "294882584201003009",
-                    "186962675287195648",
-                    "243041485929447424",
-                    "555366880118964225",
-                    "213776814198226945",
-                    "284636251288502285",
-                    "173743111023886336",
-                    "424511943055900673",
-                    "382933761911947269",
-                    "492651702542139433",
-                    "289168259482386442",
-                    "380786597458870282",
-                    "323058900771536898"
-            };
-            boolean isStaff = true;
-            for (String id: ID) {
-                if (!message.getAuthor().getId().toString().contains(id)) {
-                    isStaff = false;
-                    break;
-                }
-            }
-            if (!isStaff) {
+            if (!message.getAuthor().getId().toString().contains("396067257760874496") &&
+                    !message.getAuthor().getId().toString().contains("173743111023886336") &&
+
+                    !message.getAuthor().getId().toString().contains("140422565393858560") &&
+
+                    !message.getAuthor().getId().toString().contains("271686004035813387") &&
+                    !message.getAuthor().getId().toString().contains("334354840438439938") &&
+                    !message.getAuthor().getId().toString().contains("323058900771536898") &&
+                    !message.getAuthor().getId().toString().contains("555366880118964225") &&
+                    !message.getAuthor().getId().toString().contains("492651702542139433") &&
+                    !message.getAuthor().getId().toString().contains("380786597458870282") &&
+
+                    !message.getAuthor().getId().toString().contains("186962675287195648") &&
+                    !message.getAuthor().getId().toString().contains("382933761911947269") &&
+
+                    !message.getAuthor().getId().toString().contains("206781133596262401") &&
+                    !message.getAuthor().getId().toString().contains("270647751941947393") &&
+                    !message.getAuthor().getId().toString().contains("243041485929447424") &&
+                    !message.getAuthor().getId().toString().contains("213776814198226945") &&
+                    !message.getAuthor().getId().toString().contains("284636251288502285") &&
+                    !message.getAuthor().getId().toString().contains("424511943055900673") &&
+                    !message.getAuthor().getId().toString().contains("289168259482386442")) {
                 channel.sendMessage(Tag.asMember(message.getAuthor().getId().toString()) + "**, don't tag Developers, please!**").queue();
-                event.getGuild().addRoleToMember(message.getMember(), event.getGuild().getRoleById(Roles.getWarned()));
+                event.getGuild().addRoleToMember(message.getMember(), event.getGuild().getRoleById(Roles.getWarned())).queue();
             }
         }
     }

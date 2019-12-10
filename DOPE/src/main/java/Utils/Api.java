@@ -22,7 +22,7 @@ public class Api extends ListenerAdapter {
         try {
             JDA jda = null;
             try {
-                jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xe_ERg.TFjrD5RIGd6Y6xSzKISIcWh1tuY")
+                jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xe_edQ.BpbyuVh-RMX8QL0qv97Bn10a56Y")
                         .addEventListeners(new Api())
                         .setActivity(Activity.playing("Online!"))
                         .build();
