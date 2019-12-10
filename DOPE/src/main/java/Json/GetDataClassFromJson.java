@@ -2,13 +2,11 @@ package Json;
 
 import Debug.Debug;
 import com.google.gson.Gson;
-
 import java.util.Date;
 
 public class GetDataClassFromJson {
 
     private static boolean debug = false;
-
 
     public static boolean _data1; //EnabledGG
 

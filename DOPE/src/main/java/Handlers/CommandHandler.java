@@ -37,11 +37,11 @@ public class CommandHandler {
         if (command.startsWith(prefix))
         {
             _api.update();
-            this.handler(command, author, message, channel, jda, event);
+            this.handler(command, author, message, channel, jda);
         }
     }
 
-    private void handler (String command, User author, Message message, MessageChannel channel, JDA jda, MessageReceivedEvent event) throws IOException {
+    private void handler (String command, User author, Message message, MessageChannel channel, JDA jda) throws IOException {
         if (command.equalsIgnoreCase("!ping")) {
             long time = System.currentTimeMillis();
             channel.sendMessage("Pong!")
@@ -51,7 +51,7 @@ public class CommandHandler {
         }
         else if (command.equalsIgnoreCase("!roll")) {
             Random rand = new Random();
-            int roll = rand.nextInt(2) + 1; //This results in 1 - 6 (instead of 0 - 5)
+            int roll = rand.nextInt(10) + 1;
             channel.sendMessage("Your roll: " + roll).queue();
         }
         else if (command.equalsIgnoreCase("!squad")) {
@@ -162,17 +162,16 @@ public class CommandHandler {
             version.setDescription("Make sure what You use latest DOPE version!");
             version.addField("Current game version", GetDataClassFromJson.get_data21(), false);
             version.addField("Supported game version", GetDataClassFromJson.get_data24(), false);
-            version.addField("Latest DOPE & Cli version", GetDataClassFromJson.get_data22(),false);
-            /*if (GetDataClassFromJson.get_data22() == GetDataClassFromJson.get_data23())
+            //version.addField("Latest DOPE & Cli version", GetDataClassFromJson.get_data22(),false);
+            if (GetDataClassFromJson.get_data22().equals(GetDataClassFromJson.get_data23()))
             {
                 version.addField("Latest DOPE & Cli version", GetDataClassFromJson.get_data22(),false);
             }
             else
             {
-                Debug.p("Version", "handler", GetDataClassFromJson.get_data22() + " " + GetDataClassFromJson.get_data23());
                 version.addField("Latest DOPE version", GetDataClassFromJson.get_data23(),false);
                 version.addField("Latest Cli version", GetDataClassFromJson.get_data22(),false);
-            }*/
+            }
             version.setFooter(Variables.getWebURL());
             version.setTimestamp(Instant.now());
             channel.sendMessage(version.build()).queue();
@@ -194,7 +193,7 @@ public class CommandHandler {
             help.addField("!download w x86", "Will display latest Windows x86 download link!", false);
             help.addField("!download l x64", "Will display latest Linux x64 download link!", false);
             help.addField("!download l arm", "Will display latest Linux ARM download link!", false);
-            help.addField("!roll", "Will roll a number between 1 and 999999!", false);
+            help.addField("!roll", "Will roll a number between 1 and 10!", false);
             help.addField("!ping", "Will display ping between You and " + Tag.asMember(Users.getDOPE()) + "!", false);
             help.setFooter(Variables.getWebURL());
             help.setTimestamp(Instant.now());

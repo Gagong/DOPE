@@ -4,18 +4,15 @@ import Debug.Debug;
 import Handlers.AlertHandler;
 import Handlers.CommandHandler;
 import Json.GetDataClassFromJson;
-import net.dv8tion.jda.api.AccountType;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import okhttp3.*;
-
 import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.util.Timer;
-
 
 public class Api extends ListenerAdapter {
 
@@ -25,7 +22,7 @@ public class Api extends ListenerAdapter {
         try {
             JDA jda = null;
             try {
-                jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xc22wQ.ufRnAYqPgSNOQTCyh54ms_6BKrc")
+                jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xe_ERg.TFjrD5RIGd6Y6xSzKISIcWh1tuY")
                         .addEventListeners(new Api())
                         .setActivity(Activity.playing("Online!"))
                         .build();
@@ -49,8 +46,7 @@ public class Api extends ListenerAdapter {
     public void update() throws IOException {
 
         Request request = new Request.Builder()
-                //.url("https://powerofdark.space/api/status")
-                .url("https://raw.githubusercontent.com/Gagong/Toshinou-Revamped/master/status.json")
+                .url("https://powerofdark.space/api/status")
                 .build();
 
         httpClient.newCall(request).enqueue(new Callback() {

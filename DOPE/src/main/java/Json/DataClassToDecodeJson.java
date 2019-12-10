@@ -1,7 +1,6 @@
 package Json;
 
 import com.google.gson.Gson;
-
 import java.util.Date;
 
 public class DataClassToDecodeJson {
