@@ -7,12 +7,10 @@ public class Channels {
     private String ingameNews = "606545831859847189";
 
     //DOPE DEVELOPMENT
-    private String inDevelopmentD = "598179828591755277";
     private String requestedFeaturesD = "607651000819646491";
-    private String featuresRequestsD = "598179904130908162";
+    private String featuresRequestsD = "655676998286442527";
 
     //PERKAVA DEVELOPMENT
-    private String inDevelopmentP = "623446735850700822";
     private String requestedFeaturesP = "623446782155685899";
     private String featuresRequestsP = "623446817757069312";
 
@@ -20,7 +18,7 @@ public class Channels {
     private String botGuide = "606533259941380106";
     private String paymentMethods = "626359485790683156";
     private String profileTemplates = "626653618644451338";
-    private String support = "598177730890039300";
+    private String support = "656178853055561739";
     private String bugReports = "606538901242380318";
 
     //TALK ZONE
@@ -45,6 +43,9 @@ public class Channels {
     //DISCORD BOT
     private String botTalk = "609428100962582541";
     private String botRequests = "608313345866596370";
+    private String ticketsArchive = "655729108789100565";
+
+    public String getTicketsArchive() { return ticketsArchive; }
 
     public String getBotGuide() {
         return botGuide;
@@ -72,14 +73,6 @@ public class Channels {
 
     public String getCzsk() {
         return czsk;
-    }
-
-    public String getInDevelopmentD() {
-        return inDevelopmentD;
-    }
-
-    public String getInDevelopmentP() {
-        return inDevelopmentP;
     }
 
     public String getDe() {

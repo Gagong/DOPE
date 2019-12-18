@@ -7,22 +7,32 @@ import Json.GetDataClassFromJson;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
+import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import okhttp3.*;
 import javax.security.auth.login.LoginException;
 import java.io.*;
+import java.text.SimpleDateFormat;
+import java.time.Clock;
+import java.time.Instant;
+import java.util.Date;
+import java.util.TimeZone;
 import java.util.Timer;
+import Utils.CreateTag;
 
 public class Api extends ListenerAdapter {
 
     private final OkHttpClient httpClient = new OkHttpClient();
+    private JDA jda = null;
+    private CreateTag Tag = new CreateTag();
 
     public void buildJDA() {
         try {
-            JDA jda = null;
             try {
-                jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xe_edQ.BpbyuVh-RMX8QL0qv97Bn10a56Y")
+                jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xfpntw.rLJb4O-A_lUButzij_R7ez0GGVg")
+                        // main - NjA5Mzk3Mjg2NzU3NDY2MTMz.XfEmZQ.W0qXjoc-MiyTC8xx8HaSYiKnmFY
+                        // test - NjM3NzE4NDcyNDAyNjY1NDcy.Xfpntw.rLJb4O-A_lUButzij_R7ez0GGVg
                         .addEventListeners(new Api())
                         .setActivity(Activity.playing("Online!"))
                         .build();
@@ -34,12 +44,64 @@ public class Api extends ListenerAdapter {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            System.out.println("Finished Building JDA!");
+            Debug.p("API", "JDA", "Finished Building JDA!");
             this.update();
             Timer task = new Timer();
             task.schedule(new AlertHandler(), 0,1000 * 10);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+    }
+
+    public void onTextChannelCreate(final TextChannelCreateEvent e) {
+        String ID;
+        String ticketID = e.getChannel().getName().toString().split("ticket-")[1];
+        for (Member m : e.getChannel().getMembers()) {
+            String id = m.getUser().getId().toString();
+            if (!id.equals("396067257760874496") &&
+                    !id.equals("173743111023886336") &&
+
+                    //!id.equals("140422565393858560") &&
+
+                    !id.equals("271686004035813387") &&
+                    !id.equals("334354840438439938") &&
+                    !id.equals("323058900771536898") &&
+                    !id.equals("555366880118964225") &&
+                    !id.equals("492651702542139433") &&
+                    !id.equals("380786597458870282") &&
+
+                    !id.equals("186962675287195648") &&
+                    !id.equals("382933761911947269") &&
+
+                    !id.equals("206781133596262401") &&
+                    !id.equals("270647751941947393") &&
+                    !id.equals("270647751941947393") &&
+                    !id.equals("213776814198226945") &&
+                    !id.equals("284636251288502285") &&
+                    !id.equals("424511943055900673") &&
+                    !id.equals("289168259482386442") &&
+                    //fix bots
+                    !id.equals("609397286757466133") &&
+                    !id.equals("637718472402665472") &&
+                    !id.equals("508391840525975553") &&
+                    !id.equals("294882584201003009"))
+            {
+                ID = id;
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
+                formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
+                Date date = new Date(System.currentTimeMillis());
+                e.getChannel().sendMessage(
+                        "Hello, " + Tag.asMember(ID) + "!\n\n" +
+                                "You open a new ticket:\n" +
+                                "`ID: " + ticketID + "`\n" +
+                                "`Time: " + formatter.format(date) + "`\n" +
+                                "`Creator: " + e.getJDA().getUserById(id).getName().toString() + " | " + e.getJDA().getUserById(id).getId().toString() + "`\n\n" +
+                                "> Support will be with You shortly (You also can tag any support to help You faster).\n" +
+                                "> Please provide us with as much information as possible so that we can solve Your problem faster.\n" +
+                                "> If possible - attach **screenshots**, **GIF** or **DOPE Logs** (DOPE Logs path: `%appdata%\\DOPE\\Logs`).\n\n" +
+                                "To close this ticket write **&close**."
+                ).queue();
+            }
         }
     }
 

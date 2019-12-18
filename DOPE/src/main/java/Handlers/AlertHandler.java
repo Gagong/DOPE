@@ -22,33 +22,41 @@ public class AlertHandler extends TimerTask {
     private boolean pushDOPEUpdateAlert = false;
 
     private Channels Channels = new Channels();
+    private JDA jda;
+    {
+        try {
+            jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xfpntw.rLJb4O-A_lUButzij_R7ez0GGVg").build().awaitReady();
+            // main - NjA5Mzk3Mjg2NzU3NDY2MTMz.XfEmZQ.W0qXjoc-MiyTC8xx8HaSYiKnmFY
+            // test - NjM3NzE4NDcyNDAyNjY1NDcy.Xfpntw.rLJb4O-A_lUButzij_R7ez0GGVg
+            Debug.p("AlertHandler", "JDA", "Finished Building 2 JDA!");
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (LoginException e) {
+            e.printStackTrace();
+        }
+    }
 
     public void run() {
         Api _a = new Api();
-        try {
-            JDA jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xe_edQ.BpbyuVh-RMX8QL0qv97Bn10a56Y").build().awaitReady();
-            if (this.isSetGameOnline()) {
-                jda.getPresence().setActivity(Activity.playing("Online!"));
-            }
-            else {
-                jda.getPresence().setActivity(Activity.playing("Offline!"));
-            }
-            if (isPushDOUpdateAlert()) {
-                jda.getTextChannelById(Channels.getNews()).sendMessage("@everyone\n" +
-                        "Darkorbit pushed a new update. Bot is Offline!\n" +
-                        "Please be patient while the Developers are working on the update!").queue();
-                pushDOUpdateAlert = false;
-            }
-            else if (isPushMaintenceAlert()) {
-                jda.getTextChannelById(Channels.getNews()).sendMessage("@everyone\n" + lastAlert).queue();
-                pushMaintenceAlert = false;
-            }
-            else if (isPushDOPEUpdateAlert()) {
-                jda.getTextChannelById(Channels.getNews()).sendMessage("@everyone\n" + lastAlert).queue();
-                pushDOPEUpdateAlert = false;
-            }
-        } catch (LoginException | InterruptedException e) {
-            e.printStackTrace();
+        if (this.isSetGameOnline()) {
+            jda.getPresence().setActivity(Activity.playing("Online!"));
+        }
+        else {
+            jda.getPresence().setActivity(Activity.playing("Offline!"));
+        }
+        if (isPushDOUpdateAlert()) {
+            jda.getTextChannelById(Channels.getNews()).sendMessage("@everyone\n" +
+                    "Darkorbit pushed a new update. Bot is Offline!\n" +
+                    "Please be patient while the Developers are working on the update!").queue();
+            pushDOUpdateAlert = false;
+        }
+        else if (isPushMaintenceAlert()) {
+            jda.getTextChannelById(Channels.getNews()).sendMessage("@everyone\n" + lastAlert).queue();
+            pushMaintenceAlert = false;
+        }
+        else if (isPushDOPEUpdateAlert()) {
+            jda.getTextChannelById(Channels.getNews()).sendMessage("@everyone\n" + lastAlert).queue();
+            pushDOPEUpdateAlert = false;
         }
 
         try {

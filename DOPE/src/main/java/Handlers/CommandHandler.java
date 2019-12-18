@@ -105,12 +105,12 @@ public class CommandHandler {
         else if (command.equalsIgnoreCase("!status")) {
             String v1 = GetDataClassFromJson.get_data21();
             String v2 = GetDataClassFromJson.get_data24();
-            if (v1 == v2) {
+            if (v1.equals(v2)) {
                 channel.sendMessage("Bot status: **Online!**").queue();
                 jda.getPresence().setActivity(Activity.playing("Online!"));
             }
             else {
-                channel.sendMessage("Bot Status: **Offline!**");
+                channel.sendMessage("Bot Status: **Offline!**").queue();
                 jda.getPresence().setActivity(Activity.playing("Offline!"));
             }
         }
@@ -126,7 +126,7 @@ public class CommandHandler {
                     "**Discord info**\n" +
                     "-> For quick start - read " + Tag.asChannel(Channels.getBotGuide()) + " channel.\n" +
                     "-> To buy license - read " + Tag.asChannel(Channels.getPaymentMethods()) + " channel.\n" +
-                    "-> If you need help - we have support team. You can ask anything in " + Tag.asChannel(Channels.getSupport()) + " channel.\n" +
+                    "-> If you need help - we have support team. Open a new ticket in " + Tag.asChannel(Channels.getSupport()) + " channel.\n" +
                     "-> If you found a bug - make a report in " + Tag.asChannel(Channels.getBugReports()) + " channel.\n" +
                     "-> Check out our profile templates " + Tag.asChannel(Channels.getProfileTemplates()) + " channel.\n" +
                     "-> Giveaways every month! Do not miss your opportunity to participate! " + Tag.asChannel(Channels.getGiveaway()) + " channel.\n"
@@ -136,6 +136,18 @@ public class CommandHandler {
             String link = "Latest DOPE versions:\n" +
                     "Windows x64 - **" + Variables.getWindows64() + "**\n" +
                     "Windows x86 - **" + Variables.getWindows86() + "**\n" +
+                    "Linux x64 - **" + Variables.getLinux64() + "**\n" +
+                    "Linux ARM - **" + Variables.getLinuxARM() + "**\n";
+            channel.sendMessage(link).queue();
+        }
+        else if (command.equalsIgnoreCase("!download w")) {
+            String link = "Latest Windows DOPE versions:\n" +
+                    "Windows x64 - **" + Variables.getWindows64() + "**\n" +
+                    "Windows x86 - **" + Variables.getWindows86() + "**\n";
+            channel.sendMessage(link).queue();
+        }
+        else if (command.equalsIgnoreCase("!download l")) {
+            String link = "Latest Linux DOPE versions:\n" +
                     "Linux x64 - **" + Variables.getLinux64() + "**\n" +
                     "Linux ARM - **" + Variables.getLinuxARM() + "**\n";
             channel.sendMessage(link).queue();
@@ -189,7 +201,10 @@ public class CommandHandler {
             help.addField("!version", "Will display DOPE & DO versions!", false);
             help.addField("!invite", "Will display discord invite link!", false);
             help.addField("!link", "Will display website link!", false);
+            help.addField("!logs", "Will display path to DOPE logs!", false);
             help.addField("!download", "Will display latest bot download links!", false);
+            help.addField("!download w", "Will display latest Windows download links!", false);
+            help.addField("!download l", "Will display latest Linux download links!", false);
             help.addField("!download w x64", "Will display latest Windows x64 download link!", false);
             help.addField("!download w x86", "Will display latest Windows x86 download link!", false);
             help.addField("!download l x64", "Will display latest Linux x64 download link!", false);
@@ -199,8 +214,8 @@ public class CommandHandler {
             help.setFooter(Variables.getWebURL());
             help.setTimestamp(Instant.now());
             channel.sendMessage(help.build()).queue();
-
         }
+        message.delete().queue();
     }
 
     private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event) {
