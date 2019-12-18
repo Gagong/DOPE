@@ -61,7 +61,7 @@ public class Api extends ListenerAdapter {
             if (!id.equals("396067257760874496") &&
                     !id.equals("173743111023886336") &&
 
-                    //!id.equals("140422565393858560") &&
+                    !id.equals("140422565393858560") &&
 
                     !id.equals("271686004035813387") &&
                     !id.equals("334354840438439938") &&
