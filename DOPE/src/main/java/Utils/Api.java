@@ -14,12 +14,9 @@ import okhttp3.*;
 import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.text.SimpleDateFormat;
-import java.time.Clock;
-import java.time.Instant;
 import java.util.Date;
 import java.util.TimeZone;
 import java.util.Timer;
-import Utils.CreateTag;
 
 public class Api extends ListenerAdapter {
 
@@ -30,7 +27,7 @@ public class Api extends ListenerAdapter {
     public void buildJDA() {
         try {
             try {
-                jda = new JDABuilder("NjM3NzE4NDcyNDAyNjY1NDcy.Xfpntw.rLJb4O-A_lUButzij_R7ez0GGVg")
+                jda = new JDABuilder("NjA5Mzk3Mjg2NzU3NDY2MTMz.XhDisg.RPZwHLLQnypA2PTSDOIl5K1cubg")
                         // main - NjA5Mzk3Mjg2NzU3NDY2MTMz.XfEmZQ.W0qXjoc-MiyTC8xx8HaSYiKnmFY
                         // test - NjM3NzE4NDcyNDAyNjY1NDcy.Xfpntw.rLJb4O-A_lUButzij_R7ez0GGVg
                         .addEventListeners(new Api())
@@ -69,17 +66,20 @@ public class Api extends ListenerAdapter {
                     !id.equals("555366880118964225") &&
                     !id.equals("492651702542139433") &&
                     !id.equals("380786597458870282") &&
+                    !id.equals("210538514725470208") &&
+                    !id.equals("235114392482480139") &&
 
                     !id.equals("186962675287195648") &&
                     !id.equals("382933761911947269") &&
 
                     !id.equals("206781133596262401") &&
                     !id.equals("270647751941947393") &&
-                    !id.equals("270647751941947393") &&
+                    !id.equals("243041485929447424") &&
                     !id.equals("213776814198226945") &&
                     !id.equals("284636251288502285") &&
                     !id.equals("424511943055900673") &&
                     !id.equals("289168259482386442") &&
+
                     //fix bots
                     !id.equals("609397286757466133") &&
                     !id.equals("637718472402665472") &&
@@ -163,6 +163,10 @@ public class Api extends ListenerAdapter {
             handler.CommandHandler(msg, event, jda);
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if (event.getChannel().getName().toString().contains("ticket") && author.isBot() && author.getId().toString().contains("508391840525975553")) {
+            message.delete().queue();
         }
 
         if (event.isFromType(ChannelType.TEXT) && !bot)

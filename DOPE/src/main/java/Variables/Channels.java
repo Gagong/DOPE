@@ -5,6 +5,7 @@ public class Channels {
     private String rules = "606543082653089806";
     private String news = "598179332178968594";
     private String ingameNews = "606545831859847189";
+    private String marketplace = "662703338453729290";
 
     //DOPE DEVELOPMENT
     private String requestedFeaturesD = "607651000819646491";
@@ -15,7 +16,8 @@ public class Channels {
     private String featuresRequestsP = "623446817757069312";
 
     //SUPPORT
-    private String botGuide = "606533259941380106";
+    private String windowsBotGuide = "606533259941380106";
+    private String linuxBotGuide = "660415577386647552";
     private String paymentMethods = "626359485790683156";
     private String profileTemplates = "626653618644451338";
     private String support = "656178853055561739";
@@ -44,11 +46,30 @@ public class Channels {
     private String botTalk = "609428100962582541";
     private String botRequests = "608313345866596370";
     private String ticketsArchive = "655729108789100565";
+    private String warnedArchive = "663119990429581352";
+
+    public String server = "598177730890039298";
+
+    public String getMarketplace() {
+        return marketplace;
+    }
+
+    public String getLinuxBotGuide() {
+        return linuxBotGuide;
+    }
+
+    public String getServer() {
+        return server;
+    }
+
+    public String getWarnedArchive() {
+        return warnedArchive;
+    }
 
     public String getTicketsArchive() { return ticketsArchive; }
 
-    public String getBotGuide() {
-        return botGuide;
+    public String getWindowsBotGuide() {
+        return windowsBotGuide;
     }
 
     public String getBugReports() {

@@ -12,8 +12,12 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import org.json.simple.JSONObject;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.time.Instant;
 import java.util.Random;
 
@@ -92,8 +96,14 @@ public class CommandHandler {
         else if (command.equalsIgnoreCase("!love")) {
             channel.sendMessage(":heart: **We love DOPE** :heart:").queue();
         }
+        else if (command.equalsIgnoreCase("!hangars")) {
+            channel.sendMessage("Please, setup Hangars if you use Palladium module!\nhttps://ibb.co/WDzq2sb").queue();
+        }
+        else if (command.equalsIgnoreCase("!perkava")) {
+            channel.sendMessage("Perkava preview:\nhttps://discordapp.com/channels/598177730890039298/606417989293572096/608010142230773770").queue();
+        }
         else if (command.equalsIgnoreCase("!logs")) {
-            channel.sendMessage("DOPE Logs path: `%appdata%\\DOPE\\Logs`").queue();
+            channel.sendMessage("DOPE Logs path: `%appdata%\\DOPE\\Logs`\nhttps://cdn.discordapp.com/attachments/598182739228753941/663360155941076992/unknown.png").queue();
         }
         else if (command.equalsIgnoreCase("!link")) {
             String link = "Web URL - **" + Variables.getWebURL() + "**";
@@ -124,12 +134,13 @@ public class CommandHandler {
                     "-> Licenses: " + Variables.getLicenses() + "\n\n" +
 
                     "**Discord info**\n" +
-                    "-> For quick start - read " + Tag.asChannel(Channels.getBotGuide()) + " channel.\n" +
+                    "-> For quick start - read " + Tag.asChannel(Channels.getWindowsBotGuide()) + " and "+ Tag.asChannel(Channels.getLinuxBotGuide()) +" channels.\n" +
                     "-> To buy license - read " + Tag.asChannel(Channels.getPaymentMethods()) + " channel.\n" +
                     "-> If you need help - we have support team. Open a new ticket in " + Tag.asChannel(Channels.getSupport()) + " channel.\n" +
                     "-> If you found a bug - make a report in " + Tag.asChannel(Channels.getBugReports()) + " channel.\n" +
                     "-> Check out our profile templates " + Tag.asChannel(Channels.getProfileTemplates()) + " channel.\n" +
-                    "-> Giveaways every month! Do not miss your opportunity to participate! " + Tag.asChannel(Channels.getGiveaway()) + " channel.\n"
+                    "-> Giveaways every month! Do not miss your opportunity to participate! " + Tag.asChannel(Channels.getGiveaway()) + " channel.\n" +
+                    "-> Check out our staff marketplace in " + Tag.asChannel(Channels.getMarketplace()) + " channel."
             ).queue();
         }
         else if (command.equalsIgnoreCase("!download")) {
@@ -202,6 +213,7 @@ public class CommandHandler {
             help.addField("!invite", "Will display discord invite link!", false);
             help.addField("!link", "Will display website link!", false);
             help.addField("!logs", "Will display path to DOPE logs!", false);
+            help.addField("!perkava", "Will display Perkava preview!", false);
             help.addField("!download", "Will display latest bot download links!", false);
             help.addField("!download w", "Will display latest Windows download links!", false);
             help.addField("!download l", "Will display latest Linux download links!", false);
@@ -215,7 +227,9 @@ public class CommandHandler {
             help.setTimestamp(Instant.now());
             channel.sendMessage(help.build()).queue();
         }
-        message.delete().queue();
+        if(!channel.getId().toString().contains(Channels.getBotTalk())) {
+            message.delete().queue();
+        }
     }
 
     private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event) {
@@ -232,6 +246,8 @@ public class CommandHandler {
                     !message.getAuthor().getId().toString().contains("555366880118964225") &&
                     !message.getAuthor().getId().toString().contains("492651702542139433") &&
                     !message.getAuthor().getId().toString().contains("380786597458870282") &&
+                    !message.getAuthor().getId().toString().contains("210538514725470208") &&
+                    !message.getAuthor().getId().toString().contains("235114392482480139") &&
 
                     !message.getAuthor().getId().toString().contains("186962675287195648") &&
                     !message.getAuthor().getId().toString().contains("382933761911947269") &&
@@ -245,7 +261,35 @@ public class CommandHandler {
                     !message.getAuthor().getId().toString().contains("289168259482386442")) {
                 channel.sendMessage(Tag.asMember(message.getAuthor().getId().toString()) + "**, don't tag Developers, please!**").queue();
                 event.getGuild().addRoleToMember(message.getMember(), event.getGuild().getRoleById(Roles.getWarned())).queue();
+
+                try {
+                    String userName = message.getAuthor().getName().toString();
+                    String userID = message.getAuthor().getId().toString();
+                    String warnedPath = "Users/" + message.getAuthor().getName().toString();
+                    createNewUserFile(warnedPath);
+                    writeJson(warnedPath, userName, userID);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
             }
         }
+    }
+
+    private static void createNewUserFile (String user) throws IOException {
+        File userFile = new File(user + ".txt");
+        if (userFile.createNewFile())
+            Debug.p("CommandHandler", "createNewUserFile", "DataBase file for " + user + " created!");
+        else
+            Debug.p("CommandHandler", "createNewUserFile", "DataBase file for " + user + " already exist in this directory!");
+    }
+
+    private static void writeJson(String filename, String userName, String ID) throws Exception {
+        JSONObject warnedUser = new JSONObject();
+        warnedUser.put("userName", userName);
+        warnedUser.put("ID", ID);
+        warnedUser.put("warnedTime", Instant.now().toString());
+        Files.write(Paths.get(filename + ".txt"), warnedUser.toJSONString().getBytes());
     }
 }
