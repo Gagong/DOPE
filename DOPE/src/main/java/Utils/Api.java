@@ -73,6 +73,7 @@ public class Api extends ListenerAdapter {
                         "> If possible - attach **screenshots**, **GIF** or **DOPE Logs** (DOPE Logs path: `%appdata%\\DOPE\\Logs`).\n\n" +
                         "To close this ticket write **&close**."
         ).queue();
+        Debug.p("API", "onTextChannelCreate", "Ticket method - Done!");
     }
 
     public void update() throws IOException {

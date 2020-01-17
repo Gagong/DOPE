@@ -4,7 +4,7 @@ import Json.GetDataClassFromJson;
 
 public class Variables {
 
-    private String botKey = "NjA5Mzk3Mjg2NzU3NDY2MTMz.XiIA4Q.Y_O3sb49i4Np1ec8yhgwwE8i_Yk";
+    private String botKey = "NjA5Mzk3Mjg2NzU3NDY2MTMz.XiIEGQ.WjvJh1T4OPGwWV3OdUWTCGUsXK8";
 
     private String discord = "https://discord.gg/nNqEJRk";
     private String api = "https://powerofdark.space/api/status";
