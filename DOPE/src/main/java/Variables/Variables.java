@@ -3,6 +3,9 @@ package Variables;
 import Json.GetDataClassFromJson;
 
 public class Variables {
+
+    private String botKey = "NjA5Mzk3Mjg2NzU3NDY2MTMz.XiHabQ.0qb6lr6sw1Er8dTxTYMpjgLB0fQ";
+
     private String discord = "https://discord.gg/nNqEJRk";
     private String api = "https://powerofdark.space/api/status";
     private String webURL = "https://powerofdark.space";
@@ -20,6 +23,10 @@ public class Variables {
     private String licenses = "https://powerofdark.space/#Licenses/";
     private String info = "https://powerofdark.space/#Info/";
     private String Guide = "https://powerofdark.space/#Guide/";
+
+    public String getBotKey() {
+        return botKey;
+    }
 
     public String getDiscord() {
         return discord;

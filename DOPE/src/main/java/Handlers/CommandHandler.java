@@ -4,6 +4,7 @@ import Debug.Debug;
 import Utils.Api;
 import Json.GetDataClassFromJson;
 import Utils.CreateTag;
+import Utils.SupportAssist;
 import Variables.Users;
 import Variables.Variables;
 import Variables.Roles;
@@ -16,9 +17,10 @@ import org.json.simple.JSONObject;
 import java.awt.*;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.*;
 import java.time.Instant;
+import java.util.List;
 import java.util.Random;
 
 public class CommandHandler {
@@ -30,6 +32,7 @@ public class CommandHandler {
     private Variables Variables = new Variables();
     private Roles Roles = new Roles();
     private Channels Channels = new Channels();
+    private SupportAssist _SA = new SupportAssist();
 
     public void CommandHandler (String command, MessageReceivedEvent event, JDA jda) throws Exception {
 
@@ -37,7 +40,8 @@ public class CommandHandler {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
 
-        this.pingDevs(message, channel, event);
+        this.pingDevs(message, channel, event, author);
+        this.addSupport(message, author, command, channel);
         if (command.startsWith(prefix))
         {
             _api.update();
@@ -68,27 +72,10 @@ public class CommandHandler {
                     Tag.asMember(Users.getEra()),
                     Tag.asMember(Users.getGagong())
             };
-            String ID[] = {
-                    Users.getCrankTV(),
-                    Users.getKewai(),
-                    Users.getZhoiak(),
-                    Users.getAD3RTRON(),
-                    Users.getSumi(),
-                    Users.getEra(),
-                    Users.getGagong()
-            };
-            boolean perm = false;
-            for (String ids: ID) {
-                if (message.getAuthor().getId().toString().contains(ids))
-                {
-                    perm = true;
-                    break;
-                }
-            }
-            if (perm) {
+            if (message.getMember().getRoles().toString().contains("642742114454601779")) {
                 String squad = "";
                 for (String id: TAG) {
-                    squad = squad + id + " ";
+                    squad += id + " ";
                 }
                 channel.sendMessage("WHERE MY SQUAD? " + squad).queue();
             }
@@ -232,33 +219,46 @@ public class CommandHandler {
         }
     }
 
-    private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event) {
+    private void addSupport(Message message, User author, String command, MessageChannel channel) {
+        if (isDevsOrCM(author)) {
+            if (command.contains("!addsupport")) {
+                List<User> newSup = message.getMentionedUsers();
+                List<String> data = _SA.returnCurrentSupportList();
+                newSup.forEach(user -> {
+                    String ID = user.getId().toString();
+                    data.add(ID);
+                    tryToDeleteFile();
+                    data.forEach(id -> {
+                        String newID = id + "\n";
+                        byte[] bytes = newID.getBytes(StandardCharsets.UTF_8);
+                        tryToWriteFile(bytes);
+                    });
+                    channel.sendMessage("New support (" + Tag.asMember(user.getId().toString()) + ") succefully added!").queue();
+                });
+            } else if (command.contains("!removesupport")) {
+                List<User> removeSup = message.getMentionedUsers();
+                List<String> data = _SA.returnCurrentSupportList();
+                removeSup.forEach(user -> {
+                    String ID = user.getId().toString();
+                    data.remove(ID);
+                    tryToDeleteFile();
+                    data.forEach(id -> {
+                        String newID = id + "\n";
+                        byte[] bytes = newID.getBytes(StandardCharsets.UTF_8);
+                        tryToWriteFile(bytes);
+                    });
+                    channel.sendMessage("Support (" + Tag.asMember(user.getId().toString()) + ") succefully removed!").queue();
+                });
+            }
+        } else if (command.contains("!addsupport") || command.contains("!removesupport")) {
+            channel.sendMessage(Tag.asMember(message.getAuthor().getId().toString()) + ", wrong permissions! Only **Developers** and **CM** can use this command!").queue();
+        }
+    }
+
+    private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event, User author) {
         if (message.getMentionedUsers().toString().contains(Users.getPowerOfDark()) ||
                 message.getMentionedUsers().toString().contains(Users.getFrontendDev())) {
-            if (!message.getAuthor().getId().toString().contains("396067257760874496") &&
-                    !message.getAuthor().getId().toString().contains("173743111023886336") &&
-
-                    !message.getAuthor().getId().toString().contains("140422565393858560") &&
-
-                    !message.getAuthor().getId().toString().contains("271686004035813387") &&
-                    !message.getAuthor().getId().toString().contains("334354840438439938") &&
-                    !message.getAuthor().getId().toString().contains("323058900771536898") &&
-                    !message.getAuthor().getId().toString().contains("555366880118964225") &&
-                    !message.getAuthor().getId().toString().contains("492651702542139433") &&
-                    !message.getAuthor().getId().toString().contains("380786597458870282") &&
-                    !message.getAuthor().getId().toString().contains("210538514725470208") &&
-                    !message.getAuthor().getId().toString().contains("235114392482480139") &&
-
-                    !message.getAuthor().getId().toString().contains("186962675287195648") &&
-                    !message.getAuthor().getId().toString().contains("382933761911947269") &&
-
-                    !message.getAuthor().getId().toString().contains("206781133596262401") &&
-                    !message.getAuthor().getId().toString().contains("270647751941947393") &&
-                    !message.getAuthor().getId().toString().contains("243041485929447424") &&
-                    !message.getAuthor().getId().toString().contains("213776814198226945") &&
-                    !message.getAuthor().getId().toString().contains("284636251288502285") &&
-                    !message.getAuthor().getId().toString().contains("424511943055900673") &&
-                    !message.getAuthor().getId().toString().contains("289168259482386442")) {
+            if (!message.getMember().getRoles().toString().contains("623943061776498688")) {
                 channel.sendMessage(Tag.asMember(message.getAuthor().getId().toString()) + "**, don't tag Developers, please!**").queue();
                 event.getGuild().addRoleToMember(message.getMember(), event.getGuild().getRoleById(Roles.getWarned())).queue();
 
@@ -275,6 +275,31 @@ public class CommandHandler {
                 }
             }
         }
+    }
+
+    private boolean isDevsOrCM (User author) {
+        return (author.getId().toString().equals("173743111023886336") || author.getId().toString().equals("396067257760874496") || author.getId().toString().equals("140422565393858560") || author.getId().toString().equals("323058900771536898"));
+    }
+
+    private void tryToWriteFile (byte[] bytes) {
+        try {
+            Files.write(Paths.get("SupportUsers.txt"), bytes, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void tryToDeleteFile () {
+        try {
+            Files.deleteIfExists(Paths.get("SupportUsers.txt"));
+        } catch (NoSuchFileException e) {
+            Debug.p("CommandHandler", "addSupport", "No such file/directory exists!");
+        } catch (DirectoryNotEmptyException e) {
+            Debug.p("CommandHandler", "addSupport", "Directory is not empty.");
+        } catch (IOException e) {
+            Debug.p("CommandHandler", "addSupport", "Invalid permissions.");
+        }
+        Debug.p("CommandHandler", "addSupport", "DataBase file for Support successfully removed!");
     }
 
     private static void createNewUserFile (String user) throws IOException {
