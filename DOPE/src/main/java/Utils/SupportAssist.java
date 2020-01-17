@@ -1,7 +1,6 @@
 package Utils;
 
-import java.io.File;
-import java.io.FileNotFoundException;
+
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -9,7 +8,6 @@ import java.util.*;
 
 public class SupportAssist {
     private List<String> SupportID = new ArrayList<String>();
-    private List<String> SupportIDtest = new ArrayList<String>();
 
     public void readSupportFromFile () {
         try {
@@ -19,7 +17,7 @@ public class SupportAssist {
         }
     }
 
-    public List<String> removeSupportFronFile () {
+    public List<String> returnCurrentSupportList() {
         readSupportFromFile();
         return SupportID;
     }

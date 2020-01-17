@@ -20,7 +20,6 @@ import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.*;
 import java.time.Instant;
-import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -41,7 +40,7 @@ public class CommandHandler {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
 
-        this.pingDevs(message, channel, event);
+        this.pingDevs(message, channel, event, author);
         this.addSupport(message, author, command, channel);
         if (command.startsWith(prefix))
         {
@@ -241,7 +240,7 @@ public class CommandHandler {
         if (isDevsOrCM(author)) {
             if (command.contains("!addsupport")) {
                 List<User> newSup = message.getMentionedUsers();
-                List<String> data = _SA.removeSupportFronFile();
+                List<String> data = _SA.returnCurrentSupportList();
                 newSup.forEach(user -> {
                     String ID = user.getId().toString();
                     data.add(ID);
@@ -255,7 +254,7 @@ public class CommandHandler {
                 });
             } else if (command.contains("!removesupport")) {
                 List<User> removeSup = message.getMentionedUsers();
-                List<String> data = _SA.removeSupportFronFile();
+                List<String> data = _SA.returnCurrentSupportList();
                 removeSup.forEach(user -> {
                     String ID = user.getId().toString();
                     data.remove(ID);
@@ -273,33 +272,10 @@ public class CommandHandler {
         }
     }
 
-    private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event) {
+    private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event, User author) {
         if (message.getMentionedUsers().toString().contains(Users.getPowerOfDark()) ||
                 message.getMentionedUsers().toString().contains(Users.getFrontendDev())) {
-            if (!message.getAuthor().getId().toString().contains("396067257760874496") &&
-                    !message.getAuthor().getId().toString().contains("173743111023886336") &&
-
-                    !message.getAuthor().getId().toString().contains("140422565393858560") &&
-
-                    !message.getAuthor().getId().toString().contains("271686004035813387") &&
-                    !message.getAuthor().getId().toString().contains("334354840438439938") &&
-                    !message.getAuthor().getId().toString().contains("323058900771536898") &&
-                    !message.getAuthor().getId().toString().contains("555366880118964225") &&
-                    !message.getAuthor().getId().toString().contains("492651702542139433") &&
-                    !message.getAuthor().getId().toString().contains("380786597458870282") &&
-                    !message.getAuthor().getId().toString().contains("210538514725470208") &&
-                    !message.getAuthor().getId().toString().contains("235114392482480139") &&
-
-                    !message.getAuthor().getId().toString().contains("186962675287195648") &&
-                    !message.getAuthor().getId().toString().contains("382933761911947269") &&
-
-                    !message.getAuthor().getId().toString().contains("206781133596262401") &&
-                    !message.getAuthor().getId().toString().contains("270647751941947393") &&
-                    !message.getAuthor().getId().toString().contains("243041485929447424") &&
-                    !message.getAuthor().getId().toString().contains("213776814198226945") &&
-                    !message.getAuthor().getId().toString().contains("284636251288502285") &&
-                    !message.getAuthor().getId().toString().contains("424511943055900673") &&
-                    !message.getAuthor().getId().toString().contains("289168259482386442")) {
+            if (!message.getMember().getRoles().toString().contains("623943061776498688")) {
                 channel.sendMessage(Tag.asMember(message.getAuthor().getId().toString()) + "**, don't tag Developers, please!**").queue();
                 event.getGuild().addRoleToMember(message.getMember(), event.getGuild().getRoleById(Roles.getWarned())).queue();
 

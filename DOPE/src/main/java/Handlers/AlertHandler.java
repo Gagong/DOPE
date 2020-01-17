@@ -41,7 +41,7 @@ public class AlertHandler extends TimerTask {
     private JDA jda;
     {
         try {
-            jda = new JDABuilder("NjA5Mzk3Mjg2NzU3NDY2MTMz.XiChXA.ZbENpVK41ZhjdAQDpyzy_TWP-As").build().awaitReady();
+            jda = new JDABuilder("NjA5Mzk3Mjg2NzU3NDY2MTMz.XiHRIw.VqPK3FUmsjhZEWUu-gbNffkEPiQ").build().awaitReady();
             Debug.p("AlertHandler", "JDA", "Finished Building 2 JDA!");
         } catch (InterruptedException e) {
             e.printStackTrace();

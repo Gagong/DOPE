@@ -27,7 +27,7 @@ public class Api extends ListenerAdapter {
     public void buildJDA() {
         try {
             try {
-                jda = new JDABuilder("NjA5Mzk3Mjg2NzU3NDY2MTMz.XiChXA.ZbENpVK41ZhjdAQDpyzy_TWP-As")
+                jda = new JDABuilder("NjA5Mzk3Mjg2NzU3NDY2MTMz.XiHRIw.VqPK3FUmsjhZEWUu-gbNffkEPiQ")
                         .addEventListeners(new Api())
                         .setActivity(Activity.playing("Online!"))
                         .build();
@@ -46,10 +46,6 @@ public class Api extends ListenerAdapter {
         } catch (Exception e) {
             e.printStackTrace();
         }
-    }
-
-    private boolean ecualID (String id) {
-        return this.equals(id);
     }
 
     public void onTextChannelCreate(final TextChannelCreateEvent e) {
