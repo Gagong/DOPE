@@ -16,6 +16,7 @@ import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import Variables.Variables;
+import Variables.Channels;
 
 public class Api extends ListenerAdapter {
 
@@ -23,6 +24,7 @@ public class Api extends ListenerAdapter {
     private JDA jda = null;
     private CreateTag Tag = new CreateTag();
     private Variables Variables = new Variables();
+    private Channels Channels = new Channels();
     SupportAssist _SA = new SupportAssist();
 
 
@@ -136,7 +138,7 @@ public class Api extends ListenerAdapter {
             e.printStackTrace();
         }
 
-        if (event.getChannel().getName().toString().contains("ticket") && author.isBot() && author.getId().toString().contains("508391840525975553")) {
+        if (!event.getChannel().getId().toString().contains(Channels.getTicketsArchive()) && event.getChannel().getName().toString().contains("ticket") && author.isBot() && author.getId().toString().contains("508391840525975553")) {
             message.delete().queue();
         }
 
