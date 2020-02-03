@@ -141,8 +141,17 @@ public class AlertHandler extends TimerTask {
 
             if (GetDataClassFromJson.get_data5() == null && isMaintence)
                 isMaintence = false;
-            if (GetDataClassFromJson.get_data21().equals(GetDataClassFromJson.get_data24()) && isOutdated)
+            if (GetDataClassFromJson.get_data21().equals(GetDataClassFromJson.get_data24()) && isOutdated) {
                 isOutdated = false;
+                Process process = Runtime.getRuntime().exec("xUPD.sh");
+                /*EmbedBuilder log = new EmbedBuilder();
+                log.setTitle("SYNC: Found DOPE update!");
+                log.setDescription("State: Run AutoUpdater on VPS!");
+                log.setAuthor("DOPE VPS INFO", null, null);
+                log.setColor(Color.green);
+                log.setTimestamp(Instant.now());
+                jda.getTextChannelById(Channels.getVPSManagment()).sendMessage(log.build()).queue();*/
+            }
         } catch (IOException e) {
             e.printStackTrace();
         }

@@ -50,6 +50,11 @@ public class Channels {
 
     public String server = "598177730890039298";
     public String VPSserver = "637718328479186964";
+    public String VPSManagment = "669641353575006220";
+
+    public String getVPSManagment() {
+        return VPSManagment;
+    }
 
     public String getVPSserver() {
         return VPSserver;
