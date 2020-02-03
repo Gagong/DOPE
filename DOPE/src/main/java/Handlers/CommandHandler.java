@@ -269,7 +269,6 @@ public class CommandHandler {
                     log.setTimestamp(Instant.now());
                     channel.sendMessage(log.build()).queue();
                 } else {
-                    channel.sendMessage("**[LOG]** | Empty folder: DOPEMULTI/" + fixNumber).queue();
                     EmbedBuilder log = new EmbedBuilder();
                     log.setTitle("ERROR: KEY file does not exist in this folder!");
                     log.setDescription("PATH: DOPEMULTI/" + fixNumber);
