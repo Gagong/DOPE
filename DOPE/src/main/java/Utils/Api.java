@@ -1,17 +1,14 @@
 package Utils;
 
 import Debug.Debug;
-import Handlers.AlertHandler;
 import Handlers.CommandHandler;
 import Json.GetDataClassFromJson;
 import net.dv8tion.jda.api.JDA;
-import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import okhttp3.*;
-import javax.security.auth.login.LoginException;
 import java.io.*;
 import java.text.SimpleDateFormat;
 import java.util.*;
@@ -21,46 +18,32 @@ import Variables.Channels;
 public class Api extends ListenerAdapter {
 
     private final OkHttpClient httpClient = new OkHttpClient();
-    private JDA jda = null;
     private CreateTag Tag = new CreateTag();
-    private Variables Variables = new Variables();
-    private Channels Channels = new Channels();
-    SupportAssist _SA = new SupportAssist();
+    private Variables Variables;
 
-
-    public void buildJDA() {
+    {
         try {
-            try {
-                jda = new JDABuilder(Variables.getBotKey())
-                        .addEventListeners(new Api())
-                        .setActivity(Activity.playing("Online!"))
-                        .build();
-            } catch (LoginException e) {
-                e.printStackTrace();
-            }
-            try {
-                jda.awaitReady();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-            Debug.p("API", "JDA", "Finished Building JDA!");
-            this.update();
-            Timer task = new Timer();
-            task.schedule(new AlertHandler(), 0,1000 * 10);
-        } catch (Exception e) {
+            Variables = new Variables();
+        } catch (UnsupportedEncodingException e) {
             e.printStackTrace();
         }
     }
 
+    private Channels Channels = new Channels();
+
     public void onTextChannelCreate(final TextChannelCreateEvent e) {
-        String ID;
+        String ID = "";
         String ticketID = e.getChannel().getName().toString().split("ticket-")[1];
         Collection<String> MembersListInTicket = new HashSet<String>();
         for (Member m : e.getChannel().getMembers()) {
             String id = m.getUser().getId().toString();
             MembersListInTicket.add(id);
         }
-        ID = _SA.compareMembers(MembersListInTicket);
+        try {
+            ID = Utils.FilesManager.compareMembers(MembersListInTicket);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
         SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd 'at' HH:mm:ss z");
         formatter.setTimeZone(TimeZone.getTimeZone("UTC"));
         Date date = new Date(System.currentTimeMillis());
@@ -79,7 +62,6 @@ public class Api extends ListenerAdapter {
     }
 
     public void update() throws IOException {
-
         Request request = new Request.Builder()
                 .url("https://powerofdark.space/api/status")
                 .build();
@@ -123,8 +105,7 @@ public class Api extends ListenerAdapter {
         });
     }
 
-    public void onMessageReceived(MessageReceivedEvent event)
-    {
+    public void onMessageReceived(MessageReceivedEvent event) {
         JDA jda = event.getJDA();
         User author = event.getAuthor();
         Message message = event.getMessage();

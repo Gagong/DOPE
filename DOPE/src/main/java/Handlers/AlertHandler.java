@@ -4,18 +4,19 @@ import Debug.Debug;
 import Json.DataBase;
 import Json.GetDataClassFromJson;
 import Utils.Api;
+import Utils.FilesManager;
 import Variables.Channels;
 import Variables.Roles;
-import Variables.Users;
 import Variables.Variables;
 import com.google.gson.Gson;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
-import org.json.simple.parser.JSONParser;
 import javax.security.auth.login.LoginException;
-import java.io.FileReader;
+import java.awt.*;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.nio.file.*;
 import java.time.Duration;
 import java.time.Instant;
@@ -35,9 +36,17 @@ public class AlertHandler extends TimerTask {
     private boolean pushDOPEUpdateAlert = false;
 
     private Channels Channels = new Channels();
-    private Users Users = new Users();
     private Roles Roles = new Roles();
-    private Variables Variables = new Variables();
+    private Variables Variables;
+    private FilesManager FilesManager = new FilesManager();
+
+    {
+        try {
+            Variables = new Variables();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
     private JDA jda;
     {
         try {
@@ -50,6 +59,7 @@ public class AlertHandler extends TimerTask {
         }
     }
 
+    @Override
     public void run() {
         try (Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir") + "/Users"))) {
             List<String> result = walk.map(x -> x.toString()).filter(f -> f.endsWith(".txt")).collect(Collectors.toList());
@@ -58,7 +68,7 @@ public class AlertHandler extends TimerTask {
                 Gson gson = new Gson();
                 DataBase data = null;
                 try {
-                    data = gson.fromJson(readJson(warnedFile).toString(), DataBase.class);
+                    data = gson.fromJson(FilesManager.readJson(warnedFile).toString(), DataBase.class);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -68,14 +78,14 @@ public class AlertHandler extends TimerTask {
 
                 if (timeElapsed.toHours() >= 24) {
                     jda.getGuildById(Channels.getServer()).removeRoleFromMember(jda.getGuildById(Channels.getServer()).getMember(jda.getUserById(data.ID)), jda.getRoleById(Roles.getWarned())).queue();
-                    jda.getTextChannelById(Channels.getWarnedArchive()).sendMessage("Removed `Warned` role from **" + data.userName + "** after 24h.").queue();
-
-                    try {Files.deleteIfExists(Paths.get(warnedFile));}
-                    catch(NoSuchFileException e) {Debug.p("AlertHandler", "removeUserFile", "No such file/directory exists!");}
-                    catch(DirectoryNotEmptyException e) {Debug.p("AlertHandler", "removeUserFile", "Directory is not empty.");}
-                    catch(IOException e) {Debug.p("AlertHandler", "removeUserFile", "Invalid permissions.");}
-
-                    Debug.p("AlertHandler", "removeUserFile", "DataBase file for " + data.userName + " successfully removed!");
+                    EmbedBuilder log = new EmbedBuilder();
+                    log.setTitle("SYNC: Removed Warned role event!");
+                    log.setDescription("Removed from: " + data.userName + "\nID: " + data.ID + "\nWarned Time:" + data.warnedTime);
+                    log.setAuthor("DOPE MODERATION", null, null);
+                    log.setColor(Color.green);
+                    log.setTimestamp(Instant.now());
+                    jda.getTextChannelById(Channels.getWarnedArchive()).sendMessage(log.build()).queue();
+                    FilesManager.tryToDeleteFile(warnedFile);
                 }
             });
         } catch (IOException e) {
@@ -92,7 +102,7 @@ public class AlertHandler extends TimerTask {
         if (isPushDOUpdateAlert()) {
             jda.getTextChannelById(Channels.getNews()).sendMessage("@everyone\n" +
                     "Darkorbit pushed a new update. Bot is Offline!\n" +
-                    "Please be patient while the Developers are working on the update!").queue();
+                    "Please be patient while our Developers are working on the update!").queue();
             pushDOUpdateAlert = false;
         }
         else if (isPushMaintenceAlert()) {
@@ -163,11 +173,5 @@ public class AlertHandler extends TimerTask {
 
     public boolean isPushDOPEUpdateAlert() {
         return pushDOPEUpdateAlert;
-    }
-
-    private static Object readJson(String filename) throws Exception {
-        FileReader reader = new FileReader(filename);
-        JSONParser jsonParser = new JSONParser();
-        return jsonParser.parse(reader);
     }
 }

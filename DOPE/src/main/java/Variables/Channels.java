@@ -49,6 +49,11 @@ public class Channels {
     private String warnedArchive = "663119990429581352";
 
     public String server = "598177730890039298";
+    public String VPSserver = "637718328479186964";
+
+    public String getVPSserver() {
+        return VPSserver;
+    }
 
     public String getMarketplace() {
         return marketplace;

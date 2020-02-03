@@ -4,7 +4,7 @@ import Debug.Debug;
 import Utils.Api;
 import Json.GetDataClassFromJson;
 import Utils.CreateTag;
-import Utils.SupportAssist;
+import Utils.FilesManager;
 import Variables.Users;
 import Variables.Variables;
 import Variables.Roles;
@@ -13,13 +13,11 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.*;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-import org.json.simple.JSONObject;
 import java.awt.*;
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.charset.StandardCharsets;
-import java.nio.file.*;
 import java.time.Instant;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
@@ -29,10 +27,19 @@ public class CommandHandler {
     private String prefix = "!";
     private CreateTag Tag = new CreateTag();
     private Users Users = new Users();
-    private Variables Variables = new Variables();
+    private Variables Variables;
+
+    {
+        try {
+            Variables = new Variables();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+    }
+
     private Roles Roles = new Roles();
     private Channels Channels = new Channels();
-    private SupportAssist _SA = new SupportAssist();
+    private FilesManager FilesManager = new FilesManager();
 
     public void CommandHandler (String command, MessageReceivedEvent event, JDA jda) throws Exception {
 
@@ -42,6 +49,7 @@ public class CommandHandler {
 
         this.pingDevs(message, channel, event, author);
         this.addSupport(message, author, command, channel);
+        this.addBotKey(author, command, channel, event);
         if (command.startsWith(prefix))
         {
             _api.update();
@@ -72,7 +80,7 @@ public class CommandHandler {
                     Tag.asMember(Users.getEra()),
                     Tag.asMember(Users.getGagong())
             };
-            if (message.getMember().getRoles().toString().contains("642742114454601779")) {
+            if (message.getMember().getRoles().toString().contains(Roles.getSquad())) {
                 String squad = "";
                 for (String id: TAG) {
                     squad += id + " ";
@@ -219,46 +227,132 @@ public class CommandHandler {
         }
     }
 
-    private void addSupport(Message message, User author, String command, MessageChannel channel) {
-        if (isDevsOrCM(author)) {
+    private void addBotKey(User author, String command, MessageChannel channel, MessageReceivedEvent event) throws IOException {
+        String guildID = event.getGuild().getId().toString();
+        if (guildID.equals(Channels.getVPSserver())) {
+            if (command.contains("!addbot")) {
+                String key = command.split("key ")[1].split(" num ")[0];
+                int fixNumber = Integer.parseInt(command.split(" num ")[1]);
+
+                File keyFile = new File("DOPEMULTI/" + fixNumber + "/KEY");
+                if (keyFile.exists()) {
+                    EmbedBuilder log = new EmbedBuilder();
+                    log.setTitle("ERROR: KEY file already exists!");
+                    log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                    log.setColor(Color.red);
+                    log.setTimestamp(Instant.now());
+                    channel.sendMessage(log.build()).queue();
+                } else {
+                    byte[] bytes = key.getBytes(StandardCharsets.UTF_8);
+                    FilesManager.tryToWriteFile(bytes, "DOPEMULTI/" + fixNumber + "/KEY");
+                    Process process = Runtime.getRuntime().exec("DOPEMULTI/" + fixNumber + "/" + fixNumber + "-START.sh");
+                    EmbedBuilder log = new EmbedBuilder();
+                    log.setTitle("SYNC: New DOPE successfully added!");
+                    log.setDescription("KEY: " + key + "\nPATH: DOPEMULTI/" + fixNumber);
+                    log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                    log.setColor(Color.green);
+                    log.setTimestamp(Instant.now());
+                    channel.sendMessage(log.build()).queue();
+                }
+            } else if (command.contains("!removebot")) {
+                int fixNumber = Integer.parseInt(command.split(" num ")[1]);
+
+                File keyFile = new File("DOPEMULTI/" + fixNumber + "/KEY");
+                if (keyFile.exists()) {
+                    FilesManager.tryToDeleteFile("DOPEMULTI/" + fixNumber + "/KEY");
+                    Process process = Runtime.getRuntime().exec("DOPEMULTI/" + fixNumber + "/" + fixNumber + "-STOP.sh");
+                    EmbedBuilder log = new EmbedBuilder();
+                    log.setTitle("SYNC: DOPE KEY successfully removed!");
+                    log.setDescription("PATH: DOPEMULTI/" + fixNumber);
+                    log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                    log.setColor(Color.green);
+                    log.setTimestamp(Instant.now());
+                    channel.sendMessage(log.build()).queue();
+                } else {
+                    channel.sendMessage("**[LOG]** | Empty folder: DOPEMULTI/" + fixNumber).queue();
+                    EmbedBuilder log = new EmbedBuilder();
+                    log.setTitle("ERROR: KEY file does not exist in this folder!");
+                    log.setDescription("PATH: DOPEMULTI/" + fixNumber);
+                    log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                    log.setColor(Color.red);
+                    log.setTimestamp(Instant.now());
+                    channel.sendMessage(log.build()).queue();
+                }
+            }
+        }
+    }
+
+    private void addSupport(Message message, User author, String command, MessageChannel channel) throws IOException {
+        if (Users.isDevsOrCM(author)) {
             if (command.contains("!addsupport")) {
                 List<User> newSup = message.getMentionedUsers();
-                List<String> data = _SA.returnCurrentSupportList();
+                Collection<String> data = FilesManager.returnCurrentSupportList();
                 newSup.forEach(user -> {
                     String ID = user.getId().toString();
-                    data.add(ID);
-                    tryToDeleteFile();
-                    data.forEach(id -> {
-                        String newID = id + "\n";
-                        byte[] bytes = newID.getBytes(StandardCharsets.UTF_8);
-                        tryToWriteFile(bytes);
-                    });
-                    channel.sendMessage("New support (" + Tag.asMember(user.getId().toString()) + ") succefully added!").queue();
+                    if (data.contains(ID)) {
+                        EmbedBuilder log = new EmbedBuilder();
+                        log.setTitle("ERROR: Support file already exists!");
+                        log.setDescription("ID: " + ID + "\nUserName: " + Tag.asMember(ID));
+                        log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                        log.setColor(Color.red);
+                        log.setTimestamp(Instant.now());
+                        channel.sendMessage(log.build()).queue();
+                    } else {
+                        try {
+                            FilesManager.createNewUserFile("Support/" + ID);
+                            EmbedBuilder log = new EmbedBuilder();
+                            log.setTitle("SYNC: New Support successfully added!");
+                            log.setDescription("ID: " + ID + "\nUserName: " + Tag.asMember(ID));
+                            log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                            log.setColor(Color.green);
+                            log.setTimestamp(Instant.now());
+                            channel.sendMessage(log.build()).queue();
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    }
                 });
             } else if (command.contains("!removesupport")) {
                 List<User> removeSup = message.getMentionedUsers();
-                List<String> data = _SA.returnCurrentSupportList();
+                Collection<String> data = FilesManager.returnCurrentSupportList();
                 removeSup.forEach(user -> {
                     String ID = user.getId().toString();
-                    data.remove(ID);
-                    tryToDeleteFile();
-                    data.forEach(id -> {
-                        String newID = id + "\n";
-                        byte[] bytes = newID.getBytes(StandardCharsets.UTF_8);
-                        tryToWriteFile(bytes);
-                    });
-                    channel.sendMessage("Support (" + Tag.asMember(user.getId().toString()) + ") succefully removed!").queue();
+                    if (data.contains(ID)) {
+                        FilesManager.tryToDeleteFile("Support/" + ID + ".txt");
+                        EmbedBuilder log = new EmbedBuilder();
+                        log.setTitle("SYNC: Support successfully removed!");
+                        log.setDescription("ID: " + ID + "\nUserName: " + Tag.asMember(ID));
+                        log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                        log.setColor(Color.green);
+                        log.setTimestamp(Instant.now());
+                        channel.sendMessage(log.build()).queue();
+                    } else {
+                        EmbedBuilder log = new EmbedBuilder();
+                        log.setTitle("ERROR: Support file does not exists!");
+                        log.setDescription("ID: " + ID + "\nUserName: " + Tag.asMember(ID));
+                        log.setAuthor(author.getName(), null, author.getAvatarUrl());
+                        log.setColor(Color.red);
+                        log.setTimestamp(Instant.now());
+                        channel.sendMessage(log.build()).queue();
+                    }
                 });
             }
         } else if (command.contains("!addsupport") || command.contains("!removesupport")) {
-            channel.sendMessage(Tag.asMember(message.getAuthor().getId().toString()) + ", wrong permissions! Only **Developers** and **CM** can use this command!").queue();
+            EmbedBuilder log = new EmbedBuilder();
+            log.setTitle("ERROR: Wrong permissions!");
+            log.setDescription("Only **Developers** and **CM** can use this command!");
+            log.setAuthor(author.getName(), null, author.getAvatarUrl());
+            log.setColor(Color.red);
+            log.setTimestamp(Instant.now());
+            channel.sendMessage(log.build()).queue();
         }
     }
 
     private void pingDevs(Message message, MessageChannel channel, MessageReceivedEvent event, User author) {
         if (message.getMentionedUsers().toString().contains(Users.getPowerOfDark()) ||
-                message.getMentionedUsers().toString().contains(Users.getFrontendDev())) {
-            if (!message.getMember().getRoles().toString().contains("623943061776498688")) {
+                message.getMentionedUsers().toString().contains(Users.getFrontendDev()) ||
+                message.getMentionedRoles().toString().contains(Roles.getDevelopers())) {
+            if (!message.getMember().getRoles().toString().contains(Roles.getStaff())) {
                 channel.sendMessage(Tag.asMember(message.getAuthor().getId().toString()) + "**, don't tag Developers, please!**").queue();
                 event.getGuild().addRoleToMember(message.getMember(), event.getGuild().getRoleById(Roles.getWarned())).queue();
 
@@ -266,8 +360,8 @@ public class CommandHandler {
                     String userName = message.getAuthor().getName().toString();
                     String userID = message.getAuthor().getId().toString();
                     String warnedPath = "Users/" + message.getAuthor().getName().toString();
-                    createNewUserFile(warnedPath);
-                    writeJson(warnedPath, userName, userID);
+                    FilesManager.createNewUserFile(warnedPath);
+                    FilesManager.writeJson(warnedPath, userName, userID);
                 } catch (IOException e) {
                     e.printStackTrace();
                 } catch (Exception e) {
@@ -275,46 +369,5 @@ public class CommandHandler {
                 }
             }
         }
-    }
-
-    private boolean isDevsOrCM (User author) {
-        return (author.getId().toString().equals("173743111023886336") || author.getId().toString().equals("396067257760874496") || author.getId().toString().equals("140422565393858560") || author.getId().toString().equals("323058900771536898"));
-    }
-
-    private void tryToWriteFile (byte[] bytes) {
-        try {
-            Files.write(Paths.get("SupportUsers.txt"), bytes, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-    private void tryToDeleteFile () {
-        try {
-            Files.deleteIfExists(Paths.get("SupportUsers.txt"));
-        } catch (NoSuchFileException e) {
-            Debug.p("CommandHandler", "addSupport", "No such file/directory exists!");
-        } catch (DirectoryNotEmptyException e) {
-            Debug.p("CommandHandler", "addSupport", "Directory is not empty.");
-        } catch (IOException e) {
-            Debug.p("CommandHandler", "addSupport", "Invalid permissions.");
-        }
-        Debug.p("CommandHandler", "addSupport", "DataBase file for Support successfully removed!");
-    }
-
-    private static void createNewUserFile (String user) throws IOException {
-        File userFile = new File(user + ".txt");
-        if (userFile.createNewFile())
-            Debug.p("CommandHandler", "createNewUserFile", "DataBase file for " + user + " created!");
-        else
-            Debug.p("CommandHandler", "createNewUserFile", "DataBase file for " + user + " already exist in this directory!");
-    }
-
-    private static void writeJson(String filename, String userName, String ID) throws Exception {
-        JSONObject warnedUser = new JSONObject();
-        warnedUser.put("userName", userName);
-        warnedUser.put("ID", ID);
-        warnedUser.put("warnedTime", Instant.now().toString());
-        Files.write(Paths.get(filename + ".txt"), warnedUser.toJSONString().getBytes());
     }
 }

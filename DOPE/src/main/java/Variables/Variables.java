@@ -1,10 +1,13 @@
 package Variables;
 
 import Json.GetDataClassFromJson;
+import Utils.Base64Utils;
+import java.io.UnsupportedEncodingException;
 
 public class Variables {
+    Base64Utils _base = new Base64Utils();
 
-    private String botKey = "NjA5Mzk3Mjg2NzU3NDY2MTMz.Xic4Ug.1ay1cJ206450obABdv7ua7hgos0";
+    private String botKey = _base.Decode("TmpBNU16azNNamcyTnpVM05EWTJNVE16LlhqRzNLUS5FVkM2dWduR2tnV1N6VHdVOG8tOUlZSGN5UFU=");
 
     private String discord = "https://discord.gg/nNqEJRk";
     private String api = "https://powerofdark.space/api/status";
@@ -23,6 +26,9 @@ public class Variables {
     private String licenses = "https://powerofdark.space/#Licenses/";
     private String info = "https://powerofdark.space/#Info/";
     private String Guide = "https://powerofdark.space/#Guide/";
+
+    public Variables() throws UnsupportedEncodingException {
+    }
 
     public String getBotKey() {
         return botKey;

@@ -1,5 +1,7 @@
 package Variables;
 
+import net.dv8tion.jda.api.entities.User;
+
 public class Users {
     private String PowerOfDark = "173743111023886336";
     private String FrontendDev = "396067257760874496";
@@ -53,5 +55,9 @@ public class Users {
 
     public String getEra() {
         return era;
+    }
+
+    public boolean isDevsOrCM (User author) {
+        return (author.getId().toString().equals(this.getPowerOfDark()) || author.getId().toString().equals(this.getFrontendDev()) || author.getId().toString().equals(this.getGagong()) || author.getId().toString().equals(this.getKewai()));
     }
 }
