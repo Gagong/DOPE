@@ -232,7 +232,7 @@ public class CommandHandler {
         if (guildID.equals(Channels.getVPSserver())) {
             if (command.contains("!addbot")) {
                 String key = command.split("key ")[1].split(" num ")[0];
-                int fixNumber = Integer.parseInt(command.split(" num ")[1]);
+                String fixNumber = command.split(" num ")[1];
 
                 File keyFile = new File("DOPEMULTI/" + fixNumber + "/KEY");
                 if (keyFile.exists()) {
@@ -255,7 +255,7 @@ public class CommandHandler {
                     channel.sendMessage(log.build()).queue();
                 }
             } else if (command.contains("!removebot")) {
-                int fixNumber = Integer.parseInt(command.split(" num ")[1]);
+                String fixNumber = command.split(" num ")[1];
 
                 File keyFile = new File("DOPEMULTI/" + fixNumber + "/KEY");
                 if (keyFile.exists()) {
