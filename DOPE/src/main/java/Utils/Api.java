@@ -84,7 +84,7 @@ public class Api extends ListenerAdapter {
             }
             private void serverUnaviableMethod() {
                 Request request = new Request.Builder()
-                        .url("https://raw.githubusercontent.com/Gagong/Toshinou-Revamped/master/status.json")
+                        .url("https://raw.githubusercontent.com/Gagong/DOPE/master/DOPE/status.json")
                         .build();
 
                 httpClient.newCall(request).enqueue(new Callback() {

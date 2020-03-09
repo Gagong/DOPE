@@ -7,6 +7,7 @@ import java.io.UnsupportedEncodingException;
 public class Variables {
     Base64Utils _base = new Base64Utils();
 
+    //private String botKey = _base.Decode("TmpNM056RTRORGN5TkRBeU5qWTFORGN5LlhtWHNrUS5xYlB5VjRCM3JELXVnaC0wVXNmeVNlQng2bzA="); // TEST
     private String botKey = _base.Decode("TmpBNU16azNNamcyTnpVM05EWTJNVE16LlhqRzNLUS5FVkM2dWduR2tnV1N6VHdVOG8tOUlZSGN5UFU=");
 
     private String discord = "https://discord.gg/nNqEJRk";
