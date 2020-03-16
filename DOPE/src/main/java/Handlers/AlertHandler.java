@@ -3,6 +3,7 @@ package Handlers;
 import Debug.Debug;
 import Json.DataBase;
 import Json.GetDataClassFromJson;
+import Json.UpdateVersionClass;
 import Utils.Api;
 import Utils.FilesManager;
 import Variables.Channels;
@@ -15,17 +16,20 @@ import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
 import javax.security.auth.login.LoginException;
 import java.awt.*;
+import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.nio.file.*;
 import java.time.Duration;
 import java.time.Instant;
 import java.util.List;
+import java.util.Objects;
 import java.util.TimerTask;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class AlertHandler extends TimerTask {
+    private boolean updated = false;
     private String lastAlert = "";
     private boolean isOutdated = false;
     private boolean isMaintence = false;
@@ -61,6 +65,7 @@ public class AlertHandler extends TimerTask {
 
     @Override
     public void run() {
+        this.checkDOPEUpdate();
         try (Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir") + "/Users"))) {
             List<String> result = walk.map(x -> x.toString()).filter(f -> f.endsWith(".txt")).collect(Collectors.toList());
 
@@ -143,14 +148,6 @@ public class AlertHandler extends TimerTask {
                 isMaintence = false;
             if (GetDataClassFromJson.get_data21().equals(GetDataClassFromJson.get_data24()) && isOutdated) {
                 isOutdated = false;
-                Process process = Runtime.getRuntime().exec("xUPD.sh");
-                EmbedBuilder log = new EmbedBuilder();
-                log.setTitle("SYNC: Found DOPE update!");
-                log.setDescription("State: Run AutoUpdater on VPS!");
-                log.setAuthor("DOPE VPS INFO", null, null);
-                log.setColor(Color.green);
-                log.setTimestamp(Instant.now());
-                jda.getTextChannelById(Channels.getVPSManagment()).sendMessage(log.build()).queue();
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -182,5 +179,30 @@ public class AlertHandler extends TimerTask {
 
     public boolean isPushDOPEUpdateAlert() {
         return pushDOPEUpdateAlert;
+    }
+
+    private void checkDOPEUpdate() {
+        Gson gson = new Gson();
+        UpdateVersionClass data = null;
+        try {
+            data = gson.fromJson(Utils.FilesManager.readJson("VersionInfo.txt").toString(), UpdateVersionClass.class);
+            if (GetDataClassFromJson.get_data21().equals(GetDataClassFromJson.get_data24()) && !GetDataClassFromJson.get_data21().equals(data.version) && !updated) {
+                Process process = Runtime.getRuntime().exec("xUPD.sh");
+                EmbedBuilder log = new EmbedBuilder();
+                log.setTitle("SYNC: Found DOPE update!");
+                log.setDescription("State: Run AutoUpdater on VPS!");
+                log.setAuthor("DOPE VPS INFO", null, null);
+                log.setColor(Color.green);
+                log.setTimestamp(Instant.now());
+                Objects.requireNonNull(jda.getTextChannelById(Channels.getVPSManagment())).sendMessage(log.build()).queue();
+                updated = true;
+                FilesManager.updateVersion("VersionInfo", GetDataClassFromJson.get_data24());
+            }
+            else if ((!data.version.equals(GetDataClassFromJson.get_data24()) && updated)) {
+                updated = false;
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 }

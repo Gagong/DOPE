@@ -84,4 +84,11 @@ public class FilesManager {
         JSONParser jsonParser = new JSONParser();
         return jsonParser.parse(reader);
     }
+
+    public void updateVersion(String filename, String version) throws Exception {
+        JSONObject warnedUser = new JSONObject();
+        warnedUser.put("version", version);
+        warnedUser.put("updateTime", Instant.now().toString());
+        Files.write(Paths.get(filename + ".txt"), warnedUser.toJSONString().getBytes());
+    }
 }

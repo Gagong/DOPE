@@ -64,6 +64,7 @@ public class Api extends ListenerAdapter {
     public void update() throws IOException {
         Request request = new Request.Builder()
                 .url("https://powerofdark.space/api/status")
+                //.url("https://raw.githubusercontent.com/Gagong/DOPE/master/DOPE/status.json")
                 .build();
 
         httpClient.newCall(request).enqueue(new Callback() {
