@@ -182,7 +182,7 @@ public class AlertHandler extends TimerTask {
     }
 
     private void checkDOPEUpdate() {
-        Gson gson = new Gson();
+        /*Gson gson = new Gson();
         UpdateVersionClass data = null;
         try {
             data = gson.fromJson(Utils.FilesManager.readJson("VersionInfo.txt").toString(), UpdateVersionClass.class);
@@ -203,6 +203,6 @@ public class AlertHandler extends TimerTask {
             }
         } catch (Exception e) {
             e.printStackTrace();
-        }
+        }*/
     }
 }

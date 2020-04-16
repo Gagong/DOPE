@@ -37,7 +37,8 @@ public class Api extends ListenerAdapter {
         Collection<String> MembersListInTicket = new HashSet<String>();
         for (Member m : e.getChannel().getMembers()) {
             String id = m.getUser().getId().toString();
-            MembersListInTicket.add(id);
+            if (!id.equals("217617036749176833"))
+                MembersListInTicket.add(id);
         }
         try {
             ID = Utils.FilesManager.compareMembers(MembersListInTicket);
