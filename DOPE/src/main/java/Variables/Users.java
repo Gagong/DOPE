@@ -3,61 +3,26 @@ package Variables;
 import net.dv8tion.jda.api.entities.User;
 
 public class Users {
-    private String PowerOfDark = "173743111023886336";
-    private String FrontendDev = "396067257760874496";
+    public String PowerOfDark = "173743111023886336";
+    public String FrontendDev = "396067257760874496";
 
-    private String Gagong = "140422565393858560";
+    public String Gagong = "140422565393858560";
+    public String Kewai = "323058900771536898";
 
-    private String CrankTV = "270647751941947393";
-    private String Kewai = "323058900771536898";
-    private String zhoiak = "380786597458870282";
-    private String AD3RTRON = "235114392482480139";
-    private String Sumi = "214092234285514753";
-    private String era = "206781133596262401";
+    public String CrankTV = "270647751941947393";
+    public String zhoiak = "380786597458870282";
+    public String AD3RTRON = "235114392482480139";
+    public String Sumi = "214092234285514753";
+    public String era = "206781133596262401";
+    public String Fabio = "237666016740507649";
 
-    private String DOPE = "609397286757466133";
-
-    public String getDOPE() {
-        return DOPE;
-    }
-
-    public String getPowerOfDark() {
-        return PowerOfDark;
-    }
-
-    public String getFrontendDev() {
-        return FrontendDev;
-    }
-
-    public String getGagong() {
-        return Gagong;
-    }
-
-    public String getCrankTV() {
-        return CrankTV;
-    }
-
-    public String getKewai() {
-        return Kewai;
-    }
-
-    public String getZhoiak() {
-        return zhoiak;
-    }
-
-    public String getAD3RTRON() {
-        return AD3RTRON;
-    }
-
-    public String getSumi() {
-        return Sumi;
-    }
-
-    public String getEra() {
-        return era;
-    }
+    public String DOPE = "609397286757466133";
+    public String BLACK_DOPE = "670367326356504604";
 
     public boolean isDevsOrCM (User author) {
-        return (author.getId().toString().equals(this.getPowerOfDark()) || author.getId().toString().equals(this.getFrontendDev()) || author.getId().toString().equals(this.getGagong()) || author.getId().toString().equals(this.getKewai()));
+        return (author.getId().equals(PowerOfDark) ||
+                author.getId().equals(FrontendDev) ||
+                author.getId().equals(Gagong) ||
+                author.getId().equals(Kewai));
     }
 }

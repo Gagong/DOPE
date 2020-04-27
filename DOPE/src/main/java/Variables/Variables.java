@@ -1,85 +1,59 @@
 package Variables;
 
-import Json.GetDataClassFromJson;
+import Json.JSONDataParser;
 import Utils.Base64Utils;
-import java.io.UnsupportedEncodingException;
 
 public class Variables {
     Base64Utils _base = new Base64Utils();
 
-    //private String botKey = _base.Decode("TmpNM056RTRORGN5TkRBeU5qWTFORGN5LlhtWHNrUS5xYlB5VjRCM3JELXVnaC0wVXNmeVNlQng2bzA="); // TEST
-    private String botKey = _base.Decode("TmpBNU16azNNamcyTnpVM05EWTJNVE16LlhqRzNLUS5FVkM2dWduR2tnV1N6VHdVOG8tOUlZSGN5UFU=");
+    public String PREFIX = "!";
 
-    private String discord = "https://discord.gg/nNqEJRk";
-    private String api = "https://powerofdark.space/api/status";
-    private String webURL = "https://powerofdark.space";
-    private String downloadURL = "https://powerofdark.space/#Home/Download/";
+    //public String BOT_KEY = _base.Decode("TmpNM056RTRORGN5TkRBeU5qWTFORGN5LlhtWHNrUS5xYlB5VjRCM3JELXVnaC0wVXNmeVNlQng2bzA="); // TEST
+    public String BOT_KEY = _base.Decode("TmpBNU16azNNamcyTnpVM05EWTJNVE16LlhqRzNLUS5FVkM2dWduR2tnV1N6VHdVOG8tOUlZSGN5UFU=");
 
-    private String dope = GetDataClassFromJson.get_data23();
-    private String cli = GetDataClassFromJson.get_data22();
+    public String FLAG_RU = "U+1f1f7U+1f1fa";
+    public String FLAG_EN = "U+1f1faU+1f1f8";
+    public String FLAG_IT = "U+1f1eeU+1f1f9";
+    public String FLAG_PT = "U+1f1f5U+1f1f9";
+    public String FLAG_HU = "U+1f1edU+1f1fa";
+    public String FLAG_TR = "U+1f1f9U+1f1f7";
+    public String FLAG_DE = "U+1f1e9U+1f1ea";
+    public String FLAG_ES = "U+1f1eaU+1f1f8";
+    public String FLAG_PL = "U+1f1f5U+1f1f1";
+    public String FLAG_CZ = "U+1f1e8U+1f1ff";
+    public String FLAG_SK = "U+1f1f8U+1f1f0";
+    public String FLAG_FR = "U+1f1ebU+1f1f7";
 
-    private String windows64 = "https://powerofdark.space/downloads/DOPE/" + dope + "/DOPE.exe";
-    private String windows86 = "https://powerofdark.space/downloads/DOPE/" + dope + "/DOPE32.zip";
-    private String linux64 = "https://powerofdark.space/downloads/DOPE/" + cli + "/DOPE.cli";
-    private String linuxARM = "https://powerofdark.space/downloads/DOPE/" + cli + "/DOPE.cli-arm.zip";
+    public String SUPPORT_EMBED = "704348154631290921";
+    public String BUG_REPORT_EMBED = "704348057684279346";
+    public String SUPPORT_CHANNEL = "656178853055561739";
+    public String BUG_REPORT_CHANNEL = "606538901242380318";
+    public String SUPPORT_CATEGORY = "656194495725174785";
+    public String BUG_REPORT_CATEGORY = "681539905247248471";
+    public String TICKETS_ARCHIVE = "655729108789100565";
 
-    private String botPanel = "https://powerofdark.space/#Panel/";
-    private String licenses = "https://powerofdark.space/#Licenses/";
-    private String info = "https://powerofdark.space/#Info/";
-    private String Guide = "https://powerofdark.space/#Guide/";
+    public String CHANNEL_PATTERN = "ticket-";
 
-    public Variables() throws UnsupportedEncodingException {
-    }
+    public String WINDOWS = "703674920164655224";
+    public String LINUX = "703675811474964551";
+    public String ENVELOPE = "U+1f4e9";
+    public String LOCK = "U+1f512";
 
-    public String getBotKey() {
-        return botKey;
-    }
+    public String DISCORD = "https://discord.gg/nNqEJRk";
+    public String API = "https://powerofdark.space/api/status";
+    public String WEB_URL = "https://powerofdark.space";
+    public String DOWNLOAD_URL = "https://powerofdark.space/#Home/Download/";
 
-    public String getDiscord() {
-        return discord;
-    }
+    public String DOPE = JSONDataParser.DOPE_VERSION;
+    public String CLI = JSONDataParser.CLI_VERSION;
 
-    public String getApi() {
-        return api;
-    }
+    public String WINDOWS_64 = "https://powerofdark.space/downloads/DOPE/" + DOPE + "/DOPE.exe";
+    public String WINDOWS_86 = "https://powerofdark.space/downloads/DOPE/" + DOPE + "/DOPE32.zip";
+    public String LINUX_64 = "https://powerofdark.space/downloads/DOPE/" + CLI + "/DOPE.cli";
+    public String LINUX_ARM = "https://powerofdark.space/downloads/DOPE/" + CLI + "/DOPE.cli-arm.zip";
 
-    public String getBotPanel() {
-        return botPanel;
-    }
-
-    public String getDownloadURL() {
-        return downloadURL;
-    }
-
-    public String getGuide() {
-        return Guide;
-    }
-
-    public String getInfo() {
-        return info;
-    }
-
-    public String getLicenses() {
-        return licenses;
-    }
-
-    public String getLinux64() {
-        return linux64;
-    }
-
-    public String getLinuxARM() {
-        return linuxARM;
-    }
-
-    public String getWebURL() {
-        return webURL;
-    }
-
-    public String getWindows64() {
-        return windows64;
-    }
-
-    public String getWindows86() {
-        return windows86;
-    }
+    public String BOT_PANEL = "https://powerofdark.space/#Panel/";
+    public String LICENSES = "https://powerofdark.space/#Licenses/";
+    public String INFO = "https://powerofdark.space/#Info/";
+    public String GUIDE = "https://powerofdark.space/#Guide/";
 }

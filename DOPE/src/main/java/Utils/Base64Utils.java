@@ -1,6 +1,5 @@
 package Utils;
 
-import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
 
@@ -10,8 +9,8 @@ public class Base64Utils {
         return Base64.getEncoder().encodeToString(ve);
     }
 
-    public String Decode(String v) throws UnsupportedEncodingException {
+    public String Decode(String v) {
         final byte[] ve = Base64.getDecoder().decode(v);
-        return new String(ve, "UTF-8");
+        return new String(ve, StandardCharsets.UTF_8);
     }
 }
