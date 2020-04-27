@@ -27,6 +27,8 @@ public class MessageReceive {
 
         if (event.getMessage().getContentDisplay().startsWith(Variables.PREFIX)) {
             CommandQueryProtocol.HandleCommandProtocol(CommandQueryProtocol.parser.parse(event.getMessage().getContentDisplay().toLowerCase(), event));
+            if (!event.getTextChannel().getId().equals(Channels.TALK_WITH_BOT))
+                event.getMessage().delete().queue();
         }
 
         if (event.isFromType(ChannelType.TEXT) && !bot)
