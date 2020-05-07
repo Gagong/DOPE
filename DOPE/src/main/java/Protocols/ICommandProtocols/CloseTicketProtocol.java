@@ -4,9 +4,9 @@ import Debug.Debug;
 import Interfaces.ICommand;
 import Utils.CreateTag;
 import Variables.Variables;
+import Variables.Channels;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
-
 import java.awt.*;
 import java.time.Instant;
 import java.util.Objects;
@@ -14,6 +14,7 @@ import java.util.Objects;
 public class CloseTicketProtocol implements ICommand {
     Variables Variables = new Variables();
     CreateTag Tag = new CreateTag();
+    Channels Channels = new Channels();
 
     @Override
     public boolean isCalled(String[] args, MessageReceivedEvent event) {
@@ -30,7 +31,7 @@ public class CloseTicketProtocol implements ICommand {
             TicketLog.setAuthor(event.getAuthor().getName(), null, event.getAuthor().getAvatarUrl());
             TicketLog.setColor(Color.green);
             TicketLog.setTimestamp(Instant.now());
-            Objects.requireNonNull(event.getGuild().getTextChannelById(Variables.TICKETS_ARCHIVE)).sendMessage(TicketLog.build()).queue();
+            Objects.requireNonNull(event.getGuild().getTextChannelById(Channels.TICKETS_ARCHIVE)).sendMessage(TicketLog.build()).queue();
             event.getTextChannel().delete().queue();
         }
     }

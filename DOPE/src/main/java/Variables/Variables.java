@@ -26,16 +26,13 @@ public class Variables {
 
     public String SUPPORT_EMBED = "704348154631290921";
     public String BUG_REPORT_EMBED = "704348057684279346";
-    public String SUPPORT_CHANNEL = "656178853055561739";
-    public String BUG_REPORT_CHANNEL = "606538901242380318";
-    public String SUPPORT_CATEGORY = "656194495725174785";
-    public String BUG_REPORT_CATEGORY = "681539905247248471";
-    public String TICKETS_ARCHIVE = "655729108789100565";
+
+    public String SERVER_STATUS_MESSAGE = "707849705165422635";
 
     public String CHANNEL_PATTERN = "ticket-";
 
-    public String WINDOWS = "703674920164655224";
-    public String LINUX = "703675811474964551";
+    public String WINDOWS = "703675885739311165";
+    public String LINUX = "703675885974454383";
     public String ENVELOPE = "U+1f4e9";
     public String LOCK = "U+1f512";
 

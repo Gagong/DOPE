@@ -16,14 +16,20 @@ public class LogsProtocol implements ICommand {
 
     @Override
     public void Protocol(String[] args, MessageReceivedEvent event) {
-        Emote windows = event.getGuild().getEmoteById(Variables.WINDOWS);
-        Emote linux = event.getGuild().getEmoteById(Variables.LINUX);
-        event.getTextChannel().sendMessage("Select OS by clicking on reaction, where:\n" +
-                windows.getAsMention() + " - Windows OS.\n" +
-                linux.getAsMention() + " - Linux OS.").queue(message -> {
+        if (event.getTextChannel().getName().contains(Variables.CHANNEL_PATTERN)) {
+            Emote windows = event.getGuild().getEmoteById(Variables.WINDOWS);
+            Emote linux = event.getGuild().getEmoteById(Variables.LINUX);
+            assert windows != null;
+            assert linux != null;
+            event.getTextChannel().sendMessage("Select OS by clicking on reaction, where:\n" +
+                    windows.getAsMention() + " - Windows OS.\n" +
+                    linux.getAsMention() + " - Linux OS.").queue(message -> {
                 message.addReaction(windows).queue();
                 message.addReaction(linux).queue();
-        });
+            });
+        } else {
+            event.getTextChannel().sendMessage("Logs command are available only in Tickets!").queue();
+        }
     }
 
     @Override

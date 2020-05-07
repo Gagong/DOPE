@@ -30,10 +30,6 @@ public class CommandQueryProtocol {
         RegisterCommandProtocol("status", new StatusProtocol());
         RegisterCommandProtocol("version", new VersionProtocol());
 
-        RegisterCommandProtocol("startupdate", new StartUpdateProtocol());
-        RegisterCommandProtocol("addbot", new AddBotProtocol());
-        RegisterCommandProtocol("removebot", new RemoveBotProtocol());
-
         RegisterCommandProtocol("support", new CreateSupportEmbedProtocol());
         RegisterCommandProtocol("bugreport", new CreateBugReportEmbedProtocol());
         RegisterCommandProtocol("ask", new AskProtocol());

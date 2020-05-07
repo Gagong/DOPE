@@ -56,7 +56,7 @@ public class MessageReceive {
                     try {
                         String userName = message.getAuthor().getName();
                         String userID = message.getAuthor().getId();
-                        String warnedPath = "Users/" + message.getAuthor().getName();
+                        String warnedPath = "Stuff/DOPE/Users/" + userID;
                         Utils.FilesManager.createNewUserFile(warnedPath);
                         Utils.FilesManager.writeJson(warnedPath, userName, userID);
                     } catch (Exception e) {
@@ -64,7 +64,6 @@ public class MessageReceive {
                     }
                 }
             }
-
 
             String createChatString = guild.getName() + " | " + textChannel.getName() + " | " + name + " | " + msg;
             Debug.message("GUILD CHAT", "MessageReceive", createChatString);

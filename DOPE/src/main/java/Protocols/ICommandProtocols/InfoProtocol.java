@@ -31,8 +31,8 @@ public class InfoProtocol implements ICommand {
                 "**Discord info**\n" +
                 "-> For quick start - read " + Tag.asChannel(Channels.WINDOWS_BOT_GUIDE) + " and "+ Tag.asChannel(Channels.LINUX_BOT_GUIDE) +" channels.\n" +
                 "-> To buy license - read " + Tag.asChannel(Channels.PAYMENT_METHODS) + " channel.\n" +
-                "-> If you need help - we have support team. Open a new ticket in " + Tag.asChannel(Channels.SUPPORT) + " channel.\n" +
-                "-> If you found a bug - make a report in " + Tag.asChannel(Channels.BUG_REPORTS) + " channel.\n" +
+                "-> If you need help - we have support team. Open a new ticket in " + Tag.asChannel(Channels.SUPPORT_CHANNEL) + " channel.\n" +
+                "-> If you found a bug - make a report in " + Tag.asChannel(Channels.BUG_REPORT_CHANNEL) + " channel.\n" +
                 "-> Check out our profile templates " + Tag.asChannel(Channels.PROFILE_TEMPLATES) + " channel.\n" +
                 "-> Giveaways every month! Do not miss your opportunity to participate! " + Tag.asChannel(Channels.GIVEAWAY) + " channel.\n" +
                 "-> Check out our staff marketplace in " + Tag.asChannel(Channels.MARKETPLACE) + " channel.").queue();

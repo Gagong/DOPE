@@ -7,18 +7,12 @@ import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.nio.file.*;
 import java.time.Instant;
 
 public class FilesManager {
-    public static void tryToWriteFile(byte[] bytes, String path) throws IOException {
-        File f = new File(path);
-        f.createNewFile();
-        Files.write(Paths.get(path), bytes, StandardOpenOption.APPEND);
-    }
 
     public static void tryToDeleteFile(String path) {
         try {
@@ -55,14 +49,14 @@ public class FilesManager {
         return jsonParser.parse(reader);
     }
 
-    public static void SetTicketID (Integer ID) throws IOException {
+    public static void SetTicketID(Integer ID) throws IOException {
         JSONObject TicketID = new JSONObject();
         TicketID.put("ID", ID);
-        Files.write(Paths.get("TicketID.txt"), TicketID.toJSONString().getBytes());
+        Files.write(Paths.get("Stuff/DOPE/TicketID.txt"), TicketID.toJSONString().getBytes());
     }
 
-    public static Integer GetTicketID () throws IOException, ParseException {
-        FileReader reader = new FileReader("TicketID.txt");
+    public static Integer GetTicketID() throws IOException, ParseException {
+        FileReader reader = new FileReader("Stuff/DOPE/TicketID.txt");
         JSONParser jsonParser = new JSONParser();
         Gson gson = new Gson();
         TicketIDClass Ticket = gson.fromJson(jsonParser.parse(reader).toString(), TicketIDClass.class);

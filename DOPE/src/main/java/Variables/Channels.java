@@ -1,6 +1,9 @@
 package Variables;
 
 public class Channels {
+    public String SUPPORT_CATEGORY = "656194495725174785";
+    public String BUG_REPORT_CATEGORY = "681539905247248471";
+
     //SERVER STATS
     public String ALL = "663684724991983616";
     public String MEMBERS = "663684726355132417";
@@ -14,6 +17,7 @@ public class Channels {
     public String INGAME_NEWS = "606545831859847189";
     public String INGAME_LEAKS = "682927086708457475";
     public String MARKETPLACE = "662703338453729290";
+    public String SERVER_STATUS = "707831226064699422";
 
     //DOPE DEVELOPMENT
     public String REQUESTED_FEATURES_DOPE = "607651000819646491";
@@ -37,8 +41,8 @@ public class Channels {
     public String SID_ASSISTANT = "691721836760662096";
     public String PAYMENT_METHODS = "626359485790683156";
     public String PROFILE_TEMPLATES = "626653618644451338";
-    public String SUPPORT = "656178853055561739";
-    public String BUG_REPORTS = "606538901242380318";
+    public String SUPPORT_CHANNEL = "656178853055561739";
+    public String BUG_REPORT_CHANNEL = "606538901242380318";
     public String KNOWN_BUGS = "697478245364400138";
 
     //TALK ZONE
@@ -68,6 +72,7 @@ public class Channels {
     public String TICKETS_ARCHIVE = "655729108789100565";
     public String WARNED_ARCHIVE = "663119990429581352";
     public String TRANSLATION = "615709320641773588";
+    public String SERVER_STATUS_LOGS = "707915383134355506";
 
     public String MAIN_SERVER = "598177730890039298";
     public String TEST_SERVER = "637718328479186964";

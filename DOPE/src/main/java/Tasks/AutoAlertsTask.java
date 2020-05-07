@@ -7,7 +7,6 @@ import Protocols.JDAProtocol;
 import Variables.Channels;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.entities.Activity;
-import java.io.IOException;
 import java.util.Objects;
 import java.util.TimerTask;
 
@@ -46,41 +45,34 @@ public class AutoAlertsTask extends TimerTask {
             PUSH_DOPE_UPDATE_ALERT = false;
         }
 
-        try {
-            Api.Update();
-            if (!JSONDataParser.GAME_VERSION.equals(JSONDataParser.GAME_REMOTE) && this.compateLastAlert() && !IS_OUTDATED) {
-                this.updateLastAlert();
-                PUSH_DO_UPDATE_ALERT = true;
-                SET_GAME_ONLINE = false;
-                IS_OUTDATED = true;
-                Debug.p("AutoAlertsTask", "DO_Update_Checker", "DO Update!");
-            }
-            else if (JSONDataParser.GAME_VERSION.equals(JSONDataParser.GAME_REMOTE)) {
-                SET_GAME_ONLINE = true;
-            }
-
-            if (JSONDataParser.MAINTENANCE != null && !IS_MAINTENANCE && !JSONDataParser.BREAKING_NEWS.equals("") && this.compateLastAlert()) {
-                this.updateLastAlert();
-                IS_MAINTENANCE = true;
-                PUSH_MAINTENANCE_ALERT = true;
-                Debug.p("AutoAlertsTask", "Alert_Checker", "Maintence!");
-            }
-            else if (!JSONDataParser.BREAKING_NEWS.equals("") && this.compateLastAlert() && JSONDataParser.MAINTENANCE == null) {
-                this.updateLastAlert();
-                PUSH_DOPE_UPDATE_ALERT = true;
-                Debug.p("AutoAlertsTask", "Alert_Checker", "Alert!");
-            }
-
-            if (JSONDataParser.MAINTENANCE == null && IS_MAINTENANCE)
-                IS_MAINTENANCE = false;
-            if (JSONDataParser.GAME_VERSION.equals(JSONDataParser.GAME_REMOTE) && IS_OUTDATED) {
-                Debug.p("VPS AutoUpdate", "AutoUpdate", "Update Started!");
-                Process p = Runtime.getRuntime().exec("screen -S xDD -dm ./xUPD.sh");
-                IS_OUTDATED = false;
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        Api.Update();
+        if (!JSONDataParser.GAME_VERSION.equals(JSONDataParser.GAME_REMOTE) && this.compateLastAlert() && !IS_OUTDATED) {
+            this.updateLastAlert();
+            PUSH_DO_UPDATE_ALERT = true;
+            SET_GAME_ONLINE = false;
+            IS_OUTDATED = true;
+            Debug.p("AutoAlertsTask", "DO_Update_Checker", "DO Update!");
         }
+        else if (JSONDataParser.GAME_VERSION.equals(JSONDataParser.GAME_REMOTE)) {
+            SET_GAME_ONLINE = true;
+        }
+
+        if (JSONDataParser.MAINTENANCE != null && !IS_MAINTENANCE && !JSONDataParser.BREAKING_NEWS.equals("") && this.compateLastAlert()) {
+            this.updateLastAlert();
+            IS_MAINTENANCE = true;
+            PUSH_MAINTENANCE_ALERT = true;
+            Debug.p("AutoAlertsTask", "Alert_Checker", "Maintence!");
+        }
+        else if (!JSONDataParser.BREAKING_NEWS.equals("") && this.compateLastAlert() && JSONDataParser.MAINTENANCE == null) {
+            this.updateLastAlert();
+            PUSH_DOPE_UPDATE_ALERT = true;
+            Debug.p("AutoAlertsTask", "Alert_Checker", "Alert!");
+        }
+
+        if (JSONDataParser.MAINTENANCE == null && IS_MAINTENANCE)
+            IS_MAINTENANCE = false;
+        if (JSONDataParser.GAME_VERSION.equals(JSONDataParser.GAME_REMOTE) && IS_OUTDATED)
+            IS_OUTDATED = false;
     }
 
     private void updateLastAlert() {

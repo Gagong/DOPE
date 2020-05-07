@@ -4,12 +4,12 @@ import Protocols.LanguageQueryProtocol;
 import Utils.CreateTag;
 import Utils.FilesManager;
 import Variables.Variables;
+import Variables.Channels;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import org.json.simple.parser.ParseException;
-
 import java.awt.*;
 import java.io.IOException;
 import java.time.Instant;
@@ -17,6 +17,7 @@ import java.util.*;
 
 public class ReactionAdd {
     static Variables Variables = new Variables();
+    static Channels Channels = new Channels();
     static CreateTag Tag = new CreateTag();
 
     public static void onMessageReactionAdd (MessageReactionAddEvent event) throws Exception {
@@ -25,31 +26,29 @@ public class ReactionAdd {
                 LanguageQueryProtocol.HandleLanguageProtocol(event.getReactionEmote().getAsCodepoints(), event);
 
             if (event.getMessageId().equals(Variables.SUPPORT_EMBED) && event.getReactionEmote().getAsCodepoints().equals(Variables.ENVELOPE))
-                CreateTicketChannel(Variables.SUPPORT_CATEGORY, event);
+                CreateTicketChannel(Channels.SUPPORT_CATEGORY, event);
 
             if (event.getMessageId().equals(Variables.BUG_REPORT_EMBED) && event.getReactionEmote().getAsCodepoints().equals(Variables.ENVELOPE))
-                CreateTicketChannel(Variables.BUG_REPORT_CATEGORY, event);
+                CreateTicketChannel(Channels.BUG_REPORT_CATEGORY, event);
 
             if (event.getReactionEmote().getAsCodepoints().equals(Variables.LOCK) && !event.getUser().isBot() && event.getTextChannel().getName().contains(Variables.CHANNEL_PATTERN))
-                LogTicket(event, event.getUser().getId());
-        } else if (event.getReactionEmote().isEmote()) {
+                LogTicket(event);
+        } else if (event.getReactionEmote().isEmote() && event.getTextChannel().getName().contains(Variables.CHANNEL_PATTERN) && !event.getUser().isBot()) {
             LogsSelector(event);
+            event.getReaction().removeReaction(event.getUser()).queue();
         }
 
     }
 
-
     private static void LogsSelector(MessageReactionAddEvent event) {
         if (!event.getUser().isBot()) {
             if (event.getReactionEmote().getEmote().getName().equals("windows")) {
-                event.getTextChannel().deleteMessageById(event.getMessageId()).queue();
-                event.getTextChannel().sendMessage("Please send logs here.\n" +
+                event.getTextChannel().editMessageById(event.getMessageId(), "Please send logs here.\n" +
                         "We need both folders. You can compress it as **ZIP** or **RAR** archive.\n" +
                         "DOPE Logs path: `%appdata%\\DOPE\\Logs`\n" +
                         "https://cdn.discordapp.com/attachments/598182739228753941/663360155941076992/unknown.png").queue();
             } else if (event.getReactionEmote().getEmote().getName().equals("linux")) {
-                event.getTextChannel().deleteMessageById(event.getMessageId()).queue();
-                event.getTextChannel().sendMessage("```diff\n" +
+                event.getTextChannel().editMessageById(event.getMessageId(),"```diff\n" +
                         "+ FOR BEGINNERS (require DOPE reboot)\n" +
                         "For linux logs please use this tool ⇨ #linux-bot-guide\n" +
                         "Make sure you meet the requirements:\n" +
@@ -76,11 +75,10 @@ public class ReactionAdd {
                 .addPermissionOverride(User,
                         EnumSet.of(Permission.VIEW_CHANNEL,
                                 Permission.MESSAGE_READ,
-                                Permission.MESSAGE_WRITE,
                                 Permission.MESSAGE_EMBED_LINKS,
                                 Permission.MESSAGE_ATTACH_FILES,
                                 Permission.MESSAGE_ADD_REACTION),
-                        null)
+                        EnumSet.of(Permission.MESSAGE_WRITE))
                 .queue(textChannel ->
                     textChannel.sendMessage("Hello, " + Tag.asMember(User.getId()) + "!\n\n" +
                             "Please select your main language by clicking on reaction!")
@@ -102,16 +100,16 @@ public class ReactionAdd {
         FilesManager.SetTicketID(ID + 1);
     }
 
-    private static void LogTicket(MessageReactionAddEvent event, String ID) {
+    private static void LogTicket(MessageReactionAddEvent event) {
         event.getTextChannel().delete().queue(e -> {
             EmbedBuilder TicketLog = new EmbedBuilder();
-            TicketLog.setTitle("Ticket Closed");
-            TicketLog.addField("Ticket ID", event.getTextChannel().getName().split("-")[1], true);
-            TicketLog.addField("Closed By", Tag.asMember(event.getUser().getId()), true);
-            TicketLog.setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl());
-            TicketLog.setColor(Color.green);
-            TicketLog.setTimestamp(Instant.now());
-            Objects.requireNonNull(event.getGuild().getTextChannelById(Variables.TICKETS_ARCHIVE)).sendMessage(TicketLog.build()).queue();
+            TicketLog.setTitle("Ticket Closed").addField("```Ticket ID```", event.getTextChannel().getName().split("-")[1], true)
+                    .addField("```Closed By```", Tag.asMember(event.getUser().getId()), true)
+                    .addField("```Reason```", "Done", true)
+                    .setAuthor(event.getUser().getName(), null, event.getUser().getAvatarUrl())
+                    .setColor(Color.green)
+                    .setTimestamp(Instant.now());
+            Objects.requireNonNull(event.getGuild().getTextChannelById(Channels.TICKETS_ARCHIVE)).sendMessage(TicketLog.build()).queue();
         });
     }
 }

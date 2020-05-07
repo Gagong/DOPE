@@ -27,7 +27,7 @@ public class WarnedDestroyTask extends TimerTask {
     @Override
     public void run() {
         JDA jda = JDAProtocol.JDA;
-        try (Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir") + "/Users"))) {
+        try (Stream<Path> walk = Files.walk(Paths.get(System.getProperty("user.dir") + "/Stuff/DOPE/Users"))) {
             List<String> result = walk.map(Path::toString).filter(f -> f.endsWith(".txt")).collect(Collectors.toList());
 
             result.forEach(warnedFile -> {

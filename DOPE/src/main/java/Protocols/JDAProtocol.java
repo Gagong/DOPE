@@ -27,15 +27,23 @@ public class JDAProtocol {
             } catch (LoginException e) {
                 e.printStackTrace();
             }
-            Debug.p("API", "JDA", "Finished Building JDA!");
             Api.Update();
-            Thread.sleep(1000);
-
-            Timer AutoAlertTask = new Timer(true);
-            AutoAlertTask.scheduleAtFixedRate(new AutoAlertsTask(), 0,1000 * 10);
-
-            Timer WarnedDestroyTask = new Timer(true);
-            WarnedDestroyTask.scheduleAtFixedRate(new WarnedDestroyTask(), 0, 1000 * 60 * 60);
+            Debug.p("API", "JDA", "Finished Building JDA!");
+            Thread.sleep(2000);
+            try {
+                Timer AutoAlertTask = new Timer(true);
+                AutoAlertTask.scheduleAtFixedRate(new AutoAlertsTask(), 1000,1000 * 10);
+                Timer WarnedDestroyTask = new Timer(true);
+                WarnedDestroyTask.scheduleAtFixedRate(new WarnedDestroyTask(), 1000, 1000 * 60 * 60);
+            } catch (NullPointerException e) {
+                e.printStackTrace();
+                System.out.println("FATAL ERROR");
+                Thread.sleep(5000);
+                Timer AutoAlertTask = new Timer(true);
+                AutoAlertTask.scheduleAtFixedRate(new AutoAlertsTask(), 1000,1000 * 10);
+                Timer WarnedDestroyTask = new Timer(true);
+                WarnedDestroyTask.scheduleAtFixedRate(new WarnedDestroyTask(), 1000, 1000 * 60 * 60);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

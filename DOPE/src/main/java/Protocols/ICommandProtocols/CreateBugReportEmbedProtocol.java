@@ -4,6 +4,7 @@ import Debug.Debug;
 import Interfaces.ICommand;
 import Variables.Variables;
 import Variables.Users;
+import Variables.Channels;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import java.awt.*;
@@ -11,6 +12,7 @@ import java.util.Objects;
 
 public class CreateBugReportEmbedProtocol implements ICommand {
     Variables Variables = new Variables();
+    Channels Channels = new Channels();
     Users Users = new Users();
 
     @Override
@@ -26,7 +28,7 @@ public class CreateBugReportEmbedProtocol implements ICommand {
             SupportEmbed.setDescription("React with :envelope_with_arrow: to open a bug report! Our team will be with You shortly.");
             SupportEmbed.setAuthor("Bug Report Ticket System", null, Objects.requireNonNull(event.getJDA().getUserById(Users.DOPE)).getAvatarUrl());
             SupportEmbed.setColor(Color.green);
-            Objects.requireNonNull(event.getGuild().getTextChannelById(Variables.BUG_REPORT_CHANNEL))
+            Objects.requireNonNull(event.getGuild().getTextChannelById(Channels.BUG_REPORT_CHANNEL))
                     .sendMessage(SupportEmbed.build())
                     .complete().addReaction(Variables.ENVELOPE).queue();
         }

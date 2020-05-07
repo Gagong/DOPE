@@ -4,10 +4,12 @@ import Debug.Debug;
 import Interfaces.ILanguage;
 import Utils.CreateTag;
 import Variables.Variables;
+import net.dv8tion.jda.api.Permission;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.EnumSet;
 import java.util.Objects;
 import java.util.TimeZone;
 
@@ -32,7 +34,16 @@ public class ES implements ILanguage {
                 "> Si es posible, adjunte capturas de pantalla, registros GIF o DOPE (ruta de registros DOPE: `%appdata%\\DOPE\\Logs`).\n\n" +
                 "Para cerrar este ticket, haga clic en :lock:")
                 .queue(message -> message.addReaction(Variables.LOCK).queue());
-        event.getTextChannel().getManager().setName(event.getTextChannel().getName() + "-ES").queue();
+        event.getTextChannel().getManager().putPermissionOverride(event.getMember(), EnumSet.of(
+                Permission.VIEW_CHANNEL,
+                Permission.MESSAGE_READ,
+                Permission.MESSAGE_WRITE,
+                Permission.MESSAGE_EMBED_LINKS,
+                Permission.MESSAGE_ATTACH_FILES,
+                Permission.MESSAGE_ADD_REACTION), null)
+                .setTopic(name)
+                .setName(event.getTextChannel().getName() + "-ES")
+                .queue();
     }
 
     @Override

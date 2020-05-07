@@ -4,8 +4,6 @@ import Interfaces.ILanguage;
 import Protocols.ILanguageProtocols.*;
 import net.dv8tion.jda.api.events.message.react.MessageReactionAddEvent;
 import Variables.Variables;
-import org.json.simple.parser.ParseException;
-import java.io.IOException;
 import java.util.HashMap;
 
 public class LanguageQueryProtocol {
@@ -31,9 +29,8 @@ public class LanguageQueryProtocol {
         LanguageQuery.put(ILanguage, Protocol);
     }
 
-    public static void HandleLanguageProtocol (String ILanguage, MessageReactionAddEvent event) throws IOException, ParseException {
+    public static void HandleLanguageProtocol (String ILanguage, MessageReactionAddEvent event) {
         if (LanguageQuery.containsKey(ILanguage)) {
-            event.getReaction().removeReaction(event.getUser()).queue();
             event.getTextChannel().deleteMessageById(event.getMessageId()).queue();
             LanguageQuery.get(ILanguage).Execute(event);
             LanguageQuery.get(ILanguage).isExecuted(true, event);
