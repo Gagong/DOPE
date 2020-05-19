@@ -6,11 +6,15 @@ import Interfaces.ICommand;
 import Variables.Users;
 import Variables.Roles;
 import net.dv8tion.jda.api.EmbedBuilder;
+import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+
 import java.awt.*;
 import java.time.Instant;
+import java.util.List;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 public class SquadProtocol implements ICommand {
     private CreateTag Tag = new CreateTag();
@@ -34,14 +38,19 @@ public class SquadProtocol implements ICommand {
                 Tag.asMember(Users.Fabio),
                 Tag.asMember(Users.Gagong)
         };
-        if (Objects.requireNonNull(event.getMessage().getMember()).getRoles().contains(Roles.SQUAD)) {
+        List<Role> UR = Objects.requireNonNull(event.getMember()).getRoles();
+        AtomicBoolean state = new AtomicBoolean(false);
+        UR.forEach(role -> {
+            if (role.getId().equals(Roles.SQUAD))
+                state.set(true);
+        });
+        if (state.get()) {
             StringBuilder squad = new StringBuilder();
             for (String id: TAG) {
                 squad.append(id).append(" ");
             }
             event.getTextChannel().sendMessage("WHERE MY SQUAD? " + squad).queue();
-        }
-        else {
+        } else {
             EmbedBuilder log = new EmbedBuilder();
             log.setTitle("ERROR: Wrong permissions!");
             log.setDescription("Only **Squad** users can use this command!");

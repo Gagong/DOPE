@@ -9,9 +9,6 @@ public class Main {
         Thread.sleep(1000);
         CommandQueryProtocol.ExecuteMainProtocol();
         LanguageQueryProtocol.ExecuteLanguageQueryProtocol();
-        ProcessBuilder process = new ProcessBuilder();
-        process.command("bash", "-c", "python ./Stuff/DOPE/Run.py");
-        Process p = process.start();
     }
 }
 

@@ -13,7 +13,7 @@ public class DetachLicenseProtocol implements ICommand {
     @Override
     public void Protocol(String[] args, MessageReceivedEvent event) {
         event.getTextChannel().sendMessage("To detach a license from an DO Account, press the :x:\n\n" +
-                "**Notes:** This action will cost you 24 hours of your license duration.\n" +
+                "**Notes:** This action will cost you 16 hours of your license duration.\n" +
                 "Doesn't apply to starter & weekend licenses.\n" +
                 "**This will not freeze the license!**\n" +
                 "https://i.imgur.com/s5FPWKV.png").queue();

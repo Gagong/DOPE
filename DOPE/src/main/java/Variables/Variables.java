@@ -1,15 +1,11 @@
 package Variables;
 
 import Json.JSONDataParser;
-import Utils.Base64Utils;
 
 public class Variables {
-    Base64Utils _base = new Base64Utils();
-
     public String PREFIX = "!";
 
-    //public String BOT_KEY = _base.Decode("TmpNM056RTRORGN5TkRBeU5qWTFORGN5LlhtWHNrUS5xYlB5VjRCM3JELXVnaC0wVXNmeVNlQng2bzA="); // TEST
-    public String BOT_KEY = _base.Decode("TmpBNU16azNNamcyTnpVM05EWTJNVE16LlhqRzNLUS5FVkM2dWduR2tnV1N6VHdVOG8tOUlZSGN5UFU=");
+    public String BOT_KEY = "";
 
     public String FLAG_RU = "U+1f1f7U+1f1fa";
     public String FLAG_EN = "U+1f1faU+1f1f8";
@@ -24,10 +20,10 @@ public class Variables {
     public String FLAG_SK = "U+1f1f8U+1f1f0";
     public String FLAG_FR = "U+1f1ebU+1f1f7";
 
-    public String SUPPORT_EMBED = "704348154631290921";
-    public String BUG_REPORT_EMBED = "704348057684279346";
+    public String SUPPORT_EMBED = "712047645773922334";
+    public String BUG_REPORT_EMBED = "712047624592818198";
 
-    public String SERVER_STATUS_MESSAGE = "707849705165422635";
+    public String SERVER_STATUS_MESSAGE = "712046060377210891";
 
     public String CHANNEL_PATTERN = "ticket-";
 
@@ -36,7 +32,7 @@ public class Variables {
     public String ENVELOPE = "U+1f4e9";
     public String LOCK = "U+1f512";
 
-    public String DISCORD = "https://discord.gg/nNqEJRk";
+    public String DISCORD = "https://discord.gg/S7HpTRY";
     public String API = "https://powerofdark.space/api/status";
     public String WEB_URL = "https://powerofdark.space";
     public String DOWNLOAD_URL = "https://powerofdark.space/#Home/Download/";

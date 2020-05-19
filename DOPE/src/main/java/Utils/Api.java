@@ -74,6 +74,7 @@ public class Api {
                             .setColor(Color.GREEN)
                             .setTimestamp(Instant.now());
                     Objects.requireNonNull(JDAProtocol.JDA.getTextChannelById(Channels.SERVER_STATUS)).editMessageById(Variables.SERVER_STATUS_MESSAGE, ServerStatus.build()).queue();
+                    //JDAProtocol.JDA.getTextChannelById(Channels.SERVER_STATUS).sendMessage(ServerStatus.build()).queue();
                 }
             }
             private void serverUnaviableMethod() throws IOException {
