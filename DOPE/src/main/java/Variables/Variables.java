@@ -5,8 +5,6 @@ import Json.JSONDataParser;
 public class Variables {
     public String PREFIX = "!";
 
-    public String BOT_KEY = "";
-
     public String FLAG_RU = "U+1f1f7U+1f1fa";
     public String FLAG_EN = "U+1f1faU+1f1f8";
     public String FLAG_IT = "U+1f1eeU+1f1f9";

@@ -5,7 +5,7 @@ import Tasks.AutoAlertsTask;
 import Tasks.WarnedDestroyTask;
 import Listeners.BotListener;
 import Utils.Api;
-import Variables.Variables;
+import Variables.BotKey;
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
 import net.dv8tion.jda.api.entities.Activity;
@@ -14,12 +14,12 @@ import java.util.Timer;
 
 public class JDAProtocol {
     public static JDA JDA;
-    private static Variables Variables = new Variables();
+    private static BotKey BotKey = new BotKey();
 
     public static void ExecuteJDAProtocol() {
         try {
             try {
-                JDA = new JDABuilder(Variables.BOT_KEY)
+                JDA = new JDABuilder(BotKey.BOT_KEY)
                         .addEventListeners(new BotListener())
                         .setActivity(Activity.playing("Online!"))
                         .build()
