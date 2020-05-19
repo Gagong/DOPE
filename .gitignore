@@ -1,4 +1,6 @@
 \.gradle
 \.idea
 VPS1
-out
+\out
+\build
+\src\main\java\Variables\BotKey.java
