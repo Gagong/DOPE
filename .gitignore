@@ -1,6 +1,6 @@
-.gradle
-.idea
-VPS1
-out
-build
-src\main\java\Variables\BotKey.java
+**/.gradle
+**/.idea
+**/VPS1
+**/out
+**/build
+**src/main/java/Variables/BotKey.java
