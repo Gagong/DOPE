@@ -23,8 +23,8 @@ public class HU implements ILanguage {
         Date date = new Date(System.currentTimeMillis());
         String name = (Objects.requireNonNull(event.getMember()).getNickname() == null) ? event.getMember().getEffectiveName() : event.getMember().getNickname();
 
-        event.getTextChannel().sendMessage("Alô, " + Tag.asMember(event.getMember().getId()) + "!\n\n" +
-                "Alo Voce abriu um novo ticket:\n" +
+        event.getTextChannel().sendMessage("Szia, " + Tag.asMember(event.getMember().getId()) + "!\n\n" +
+                "Új ticketet nyitottál:\n" +
                 "`ID: " + event.getTextChannel().getName().split(Variables.CHANNEL_PATTERN)[1] + "`\n" +
                 "`Idő: " + formatter.format(date) + "`\n" +
                 "`Felhasználó: " + name + " | " + event.getMember().getId() + "`\n\n" +
