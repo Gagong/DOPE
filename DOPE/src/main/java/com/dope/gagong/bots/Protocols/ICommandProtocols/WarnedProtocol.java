@@ -8,6 +8,8 @@ import com.dope.gagong.bots.Variables.Roles;
 import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.User;
 import net.dv8tion.jda.api.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.api.exceptions.HierarchyException;
+
 import java.awt.*;
 import java.sql.SQLException;
 import java.time.Instant;
@@ -31,8 +33,47 @@ public class WarnedProtocol implements ICommand {
             target.forEach(user -> {
                 try {
                     SQL.writeWarnedUserInSQL(user.getId(), Instant.now().toString());
-                    event.getGuild().addRoleToMember(Objects.requireNonNull(event.getGuild().getMember(user)), Objects.requireNonNull(event.getGuild().getRoleById(Roles.WARNED))).queue();
-                    event.getTextChannel().sendMessage("**" + Tag.asMember(user.getId()) + " you have been warned by " + Tag.asMember(event.getAuthor().getId()) + "!**").queue();
+                    int count = SQL.getWarnedCountByIDFromSQL(user.getId());
+                    SQL.writeUIDIntoWarnedCounterSQL(user.getId(), count);
+                    switch (count) {
+                        case 1:
+                            event.getGuild().addRoleToMember(Objects.requireNonNull(event.getGuild().getMember(user)), Objects.requireNonNull(event.getGuild().getRoleById(Roles.WARNED))).queue();
+                            event.getTextChannel().sendMessage("**" + Tag.asMember(user.getId()) + " you have been warned by " + Tag.asMember(event.getAuthor().getId()) + "!**\n" +
+                                    "Warning count: " + count + "\n" +
+                                    "Next punishment: **Mute for 6 hours!**").queue();
+                            return;
+                        case 2:
+                            event.getGuild().addRoleToMember(Objects.requireNonNull(event.getGuild().getMember(user)), Objects.requireNonNull(event.getGuild().getRoleById(Roles.WARNED))).queue();
+                            event.getTextChannel().sendMessage("**" + Tag.asMember(user.getId()) + " you have been warned and muted for 6 hours by " + Tag.asMember(event.getAuthor().getId()) + "!**\n" +
+                                    "Warning count: " + count + "\n" +
+                                    "Next punishment: **Mute for 24 hours!**").queue();
+                            event.getTextChannel().sendMessage("-automute " + user.getId() + " 360").queue();
+                            return;
+                        case 3:
+                            event.getGuild().addRoleToMember(Objects.requireNonNull(event.getGuild().getMember(user)), Objects.requireNonNull(event.getGuild().getRoleById(Roles.WARNED))).queue();
+                            event.getTextChannel().sendMessage("**" + Tag.asMember(user.getId()) + " you have been warned and muted for 24 hours by " + Tag.asMember(event.getAuthor().getId()) + "!**\n" +
+                                    "Warning count: " + count + "\n" +
+                                    "Next punishment: **Kick from server!**").queue();
+                            event.getTextChannel().sendMessage("-automute " + user.getId() + " 720").queue();
+                            return;
+                        case 4:
+                            event.getTextChannel().sendMessage("**" + Tag.asMember(user.getId()) + " you have been warned, muted for 3 days and kicked after 4 warnings by " + Tag.asMember(event.getAuthor().getId()) + "!**").queue();
+                            event.getTextChannel().sendMessage("-automute " + user.getId() + " 2160").queue();
+                            user.openPrivateChannel().queue(privateChannel -> {
+                                privateChannel.sendMessage("Hello, " + Tag.asMember(user.getId()) + "!\n" +
+                                        "You have been kicked from DOPE server after 4 warnings!'n" +
+                                        "**Please follow the communication rules and server rules!**").queue();
+                            });
+                            try {
+                                event.getGuild().kick(Objects.requireNonNull(event.getGuild().getMemberById(user.getId()))).queue();
+                            } catch (HierarchyException exception) {
+                                event.getTextChannel().sendMessage("Can't modify a member with higher or equal highest role than yourself!").queue();
+                            }
+                            SQL.writeUIDIntoWarnedCounterSQL(user.getId(), 0);
+                            return;
+                        default:
+                            return;
+                    }
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }

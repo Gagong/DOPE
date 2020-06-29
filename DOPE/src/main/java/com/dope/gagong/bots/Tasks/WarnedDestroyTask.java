@@ -1,5 +1,6 @@
 package com.dope.gagong.bots.Tasks;
 
+import com.dope.gagong.bots.Debug.Debug;
 import com.dope.gagong.bots.Protocols.JDAProtocol;
 import com.dope.gagong.bots.Utils.SQL;
 import com.dope.gagong.bots.Variables.Channels;
@@ -52,7 +53,8 @@ public class WarnedDestroyTask extends TimerTask {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                }
+                } else
+                    Debug.p("WarnedDestroyTask", "CheckAllWarnedUsersInSQL", "User [" + k + "] with TimeElapsed [" + timeElapsed.toHours() + "], skipped!");
             });
             List<Member> Members = Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER)).getMembers();
             Members.forEach(member -> {
@@ -75,7 +77,8 @@ public class WarnedDestroyTask extends TimerTask {
                         log.setColor(Color.green);
                         log.setTimestamp(Instant.now());
                         Objects.requireNonNull(jda.getTextChannelById(Channels.WARNED_ARCHIVE)).sendMessage(log.build()).queue();
-                    }
+                    } else
+                        Debug.p("WarnedDestroyTask", "CheckWarnedUsersOnServer", "User [" + user + "] have record in SQC, skipped!");
                 } catch (SQLException throwables) {
                     throwables.printStackTrace();
                 }

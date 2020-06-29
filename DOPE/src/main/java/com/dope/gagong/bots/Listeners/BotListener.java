@@ -1,6 +1,7 @@
 package com.dope.gagong.bots.Listeners;
 
 import com.dope.gagong.bots.Protocols.JDAProtocol;
+import com.dope.gagong.bots.Utils.SQL;
 import com.dope.gagong.bots.Variables.Channels;
 import net.dv8tion.jda.api.events.channel.text.TextChannelCreateEvent;
 import net.dv8tion.jda.api.events.guild.GuildBanEvent;
@@ -18,6 +19,7 @@ import net.dv8tion.jda.api.events.message.react.MessageReactionRemoveEvent;
 import net.dv8tion.jda.api.hooks.ListenerAdapter;
 import org.jetbrains.annotations.NotNull;
 
+import java.sql.SQLException;
 import java.util.Objects;
 
 public class BotListener extends ListenerAdapter {
@@ -44,7 +46,7 @@ public class BotListener extends ListenerAdapter {
 
     @Override
     public void onMessageReactionRemove (@NotNull MessageReactionRemoveEvent event) {
-        ReactionRemove.onMessageReactionRemove(event);
+
     }
 
     @Override
@@ -55,7 +57,6 @@ public class BotListener extends ListenerAdapter {
                 "+ User update nickname from " + old + " to " + newn + "!\n" +
                 "```")
                 .queue();
-
     }
 
     @Override
@@ -65,7 +66,13 @@ public class BotListener extends ListenerAdapter {
 
     @Override
     public void onGuildMemberJoin(@NotNull GuildMemberJoinEvent event) {
-
+        try {
+            if (!SQL.isUserInWarnedCounterSQL(event.getMember().getId())) {
+                SQL.writeUIDIntoWarnedCounterSQL(event.getMember().getId(), 0);
+            }
+        } catch (SQLException throwables) {
+            throwables.printStackTrace();
+        }
     }
 
     @Override
@@ -74,7 +81,6 @@ public class BotListener extends ListenerAdapter {
                 "- User " + event.getUser().getName() + " was banned!\n" +
                 "```")
                 .queue();
-
     }
 
     @Override

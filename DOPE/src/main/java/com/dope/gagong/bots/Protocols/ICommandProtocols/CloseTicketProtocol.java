@@ -34,8 +34,16 @@ public class CloseTicketProtocol implements ICommand {
             TicketLog.setColor(Color.green);
             TicketLog.setTimestamp(Instant.now());
             Objects.requireNonNull(event.getGuild().getTextChannelById(Channels.TICKETS_ARCHIVE)).sendMessage(TicketLog.build()).queue();
+            String channelID, ticketNameID, ownerID = null;
+            String whoCloseName = (Objects.requireNonNull(event.getMember()).getNickname() == null) ? event.getMember().getEffectiveName() : event.getMember().getNickname();
             try {
+                channelID = event.getTextChannel().getId();
+                ticketNameID = event.getTextChannel().getName();
+                ownerID = SQL.getTicketByChannelID(event.getTextChannel().getId());
+                assert ownerID != null;
+                String ownerName = (Objects.requireNonNull(event.getGuild().getMemberById(ownerID)).getNickname() == null ? Objects.requireNonNull(event.getGuild().getMemberById(ownerID)).getEffectiveName() : Objects.requireNonNull(event.getGuild().getMemberById(ownerID)).getNickname());
                 SQL.deleteActiveTicketInSQL(event.getTextChannel().getId());
+                SQL.setTicketLog(ownerID, channelID, ticketNameID, whoCloseName, event.getMember().getId(), "Closed by !close command", ownerName);
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }

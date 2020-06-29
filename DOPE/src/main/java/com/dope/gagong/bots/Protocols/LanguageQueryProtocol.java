@@ -30,7 +30,7 @@ public class LanguageQueryProtocol {
     }
 
     public static void HandleLanguageProtocol (String ILanguage, MessageReactionAddEvent event) {
-        if (LanguageQuery.containsKey(ILanguage)) {
+        if (LanguageQuery.containsKey(ILanguage) && event.getTextChannel().getName().split("-").length <= 2) {
             event.getTextChannel().deleteMessageById(event.getMessageId()).queue();
             LanguageQuery.get(ILanguage).Execute(event);
             LanguageQuery.get(ILanguage).isExecuted(true, event);

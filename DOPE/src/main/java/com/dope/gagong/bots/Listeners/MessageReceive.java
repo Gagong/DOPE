@@ -21,7 +21,6 @@ public class MessageReceive {
     private static final Roles Roles = new Roles();
     private static final CreateTag Tag = new CreateTag();
 
-
     public static void onMessageReceived(MessageReceivedEvent event) {
         User author = event.getAuthor();
         Message message = event.getMessage();
@@ -34,18 +33,14 @@ public class MessageReceive {
                 event.getMessage().delete().queue();
         }
 
-        if (event.isFromType(ChannelType.TEXT) && !bot)
-        {
+        if (event.isFromType(ChannelType.TEXT) && !bot) {
             Guild guild = event.getGuild();
             TextChannel textChannel = event.getTextChannel();
             Member member = event.getMember();
             String name;
             if (message.isWebhookMessage())
-            {
                 name = author.getName();
-            }
-            else
-            {
+            else {
                 assert member != null;
                 name = member.getEffectiveName();
             }
@@ -62,15 +57,11 @@ public class MessageReceive {
                     }
                 }
             }
-
-            String createChatString = guild.getName() + " | " + textChannel.getName() + " | " + name + " | " + msg;
-            Debug.message("GUILD CHAT", "MessageReceive", createChatString);
+            Debug.message("GUILD CHAT", "MessageReceive", guild.getName(), textChannel.getName(), name, msg);
         }
-        else if (event.isFromType(ChannelType.PRIVATE) && !bot)
-        {
+        else if (event.isFromType(ChannelType.PRIVATE) && !bot) {
             PrivateChannel privateChannel = event.getPrivateChannel();
-            String createChatString = author.getName() + " | " + msg;
-            Debug.message("PRIVATE CHAT", "MessageReceive", createChatString);
+            Debug.message("PRIVATE CHAT", "MessageReceive", privateChannel.getName(), privateChannel.getId(), author.getName(), msg);
         }
     }
 }
