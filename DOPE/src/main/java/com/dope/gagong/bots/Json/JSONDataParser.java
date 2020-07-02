@@ -5,7 +5,6 @@ import com.google.gson.Gson;
 import java.util.Date;
 
 public class JSONDataParser {
-    private static boolean debug = false;
     public static boolean ENABLED_GG;
     public static String GAME_VERSION;
     public static String CLI_VERSION;
@@ -45,6 +44,7 @@ public class JSONDataParser {
 
         MAINTENANCE = data.Maintenance;
 
+        boolean debug = false;
         if (debug) {
             Debug.b("Utils", "EnabledGG", ENABLED_GG);
             Debug.p("Utils", "game", GAME_VERSION);

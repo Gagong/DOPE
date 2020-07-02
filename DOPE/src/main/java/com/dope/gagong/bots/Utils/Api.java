@@ -93,7 +93,7 @@ public class Api {
                 httpClient.newCall(request).enqueue(new Callback() {
                     public void onFailure(@NotNull Call call, @NotNull IOException e) {
                         e.printStackTrace();
-                        JDAProtocol.JDA.getTextChannelById(Channels.SERVER_STATUS_LOGS).sendMessage("```java\n" +
+                        Objects.requireNonNull(JDAProtocol.JDA.getTextChannelById(Channels.SERVER_STATUS_LOGS)).sendMessage("```java\n" +
                                 "HTTPExeption\n" +
                                 localTimeString + "\n" +
                                 e.getMessage() + "```").queue();

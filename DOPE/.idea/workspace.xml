@@ -2,32 +2,31 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="ae965921-11be-407f-b62f-6144b30c694c" name="Default Changelist" comment="">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/sqldialects.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Debug/Debug.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Debug/Debug.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Listeners/BotListener.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Listeners/BotListener.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Listeners/MessageReceive.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Listeners/MessageReceive.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Listeners/ReactionAdd.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Listeners/ReactionAdd.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Listeners/ReactionRemove.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Protocols/ICommandProtocols/CloseTicketProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Protocols/ICommandProtocols/CloseTicketProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Json/JSONDataParser.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Json/JSONDataParser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Protocols/ICommandProtocols/WarnedProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Protocols/ICommandProtocols/WarnedProtocol.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Protocols/LanguageQueryProtocol.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Protocols/LanguageQueryProtocol.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Tasks/AutoAlertsTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Tasks/AutoAlertsTask.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Tasks/WarnedDestroyTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Tasks/WarnedDestroyTask.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Utils/Api.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Utils/Api.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Utils/SQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Utils/SQL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SQL_Bots-Preview-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SQL_Bots-Preview-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SQL_Bots-Preview.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SQL_Bots-Preview.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Debug/Debug.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Debug/Debug.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Json/JSONDataParser.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Json/JSONDataParser.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Listeners/BotListener.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Listeners/BotListener.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Listeners/MessageReceive.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Listeners/MessageReceive.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Listeners/ReactionAdd.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Listeners/ReactionAdd.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Main.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Protocols/ICommandProtocols/CloseTicketProtocol.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Protocols/ICommandProtocols/CloseTicketProtocol.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Protocols/ICommandProtocols/WarnedProtocol.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Protocols/ICommandProtocols/WarnedProtocol.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Protocols/LanguageQueryProtocol.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Protocols/LanguageQueryProtocol.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Tasks/AutoAlertsTask.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Tasks/AutoAlertsTask.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Tasks/WarnedDestroyTask.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Tasks/WarnedDestroyTask.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Utils/Base64Utils.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Utils/Api$1$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Utils/Api$1$1.class" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Utils/SQL.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Utils/SQL.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" beforeDir="false" afterPath="$PROJECT_DIR$/target/maven-status/maven-compiler-plugin/compile/default-compile/inputFiles.lst" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -51,6 +50,7 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DatabaseDriversLRU" value="sqlserver.ms" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
@@ -61,7 +61,7 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Maven.Maven">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-14" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -117,7 +117,9 @@
       <workItem from="1593151874558" duration="2907000" />
       <workItem from="1593167504457" duration="11196000" />
       <workItem from="1593416917507" duration="4197000" />
-      <workItem from="1593424138523" duration="5699000" />
+      <workItem from="1593424138523" duration="11430000" />
+      <workItem from="1593505534608" duration="5456000" />
+      <workItem from="1593675303358" duration="1128000" />
     </task>
     <servers />
   </component>
@@ -129,16 +131,16 @@
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
     <state x="657" y="139" key="#Main/0.0.1920.1040/1920.9.1920.1040@0.0.1920.1040" timestamp="1593153440677" />
-    <state x="349" y="361" key="#SQL_Dialects" timestamp="1593425230516">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2269" y="370" key="#SQL_Dialects" timestamp="1593435909384">
+      <screen x="1920" y="9" width="1920" height="1040" />
     </state>
     <state x="349" y="361" key="#SQL_Dialects/0.0.1920.1040/1920.9.1920.1040@0.0.1920.1040" timestamp="1593425230516" />
-    <state x="2269" y="370" key="#SQL_Dialects/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1590582271634" />
-    <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593425221185">
-      <screen x="0" y="0" width="1920" height="1040" />
+    <state x="2269" y="370" key="#SQL_Dialects/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593435909384" />
+    <state x="2988" y="173" width="816" height="701" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1593435886152">
+      <screen x="1920" y="9" width="1920" height="1040" />
     </state>
     <state x="414" y="174" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.9.1920.1040@0.0.1920.1040" timestamp="1593425221185" />
-    <state x="2334" y="183" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1590582600758" />
+    <state x="2988" y="173" width="816" height="701" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593435886152" />
     <state x="765" y="226" key="#com.intellij.ide.util.MemberChooser" timestamp="1593066519483">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>
@@ -151,26 +153,26 @@
       <screen x="1920" y="9" width="1920" height="1040" />
     </state>
     <state x="2610" y="275" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593428611349" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1593427466595">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom" timestamp="1593676446463">
       <screen x="1920" y="9" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.9.1920.1040@0.0.1920.1040" timestamp="1593426257786" />
-    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593427466595" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1593427466595">
+    <state width="1877" height="282" key="GridCell.Tab.0.bottom/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593676446463" />
+    <state width="1877" height="282" key="GridCell.Tab.0.center" timestamp="1593676446463">
       <screen x="1920" y="9" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.9.1920.1040@0.0.1920.1040" timestamp="1593426257786" />
-    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593427466595" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1593427466595">
+    <state width="1877" height="282" key="GridCell.Tab.0.center/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593676446463" />
+    <state width="1877" height="282" key="GridCell.Tab.0.left" timestamp="1593676446463">
       <screen x="1920" y="9" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.9.1920.1040@0.0.1920.1040" timestamp="1593426257786" />
-    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593427466595" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1593427466595">
+    <state width="1877" height="282" key="GridCell.Tab.0.left/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593676446463" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right" timestamp="1593676446463">
       <screen x="1920" y="9" width="1920" height="1040" />
     </state>
     <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.9.1920.1040@0.0.1920.1040" timestamp="1593426257786" />
-    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593427466595" />
+    <state width="1877" height="282" key="GridCell.Tab.0.right/0.0.1920.1040/1920.9.1920.1040@1920.9.1920.1040" timestamp="1593676446463" />
     <state width="1877" height="348" key="GridCell.Tab.1.bottom" timestamp="1592908890123">
       <screen x="0" y="0" width="1920" height="1040" />
     </state>

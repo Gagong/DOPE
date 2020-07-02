@@ -1,9 +1,13 @@
 package com.dope.gagong.bots.Utils;
 
 import com.dope.gagong.bots.Debug.Debug;
+import com.dope.gagong.bots.Protocols.JDAProtocol;
+import net.dv8tion.jda.api.entities.GuildChannel;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.sql.*;
+import java.util.List;
+import java.util.Objects;
 
 public class SQL {
     private static final String windowsSQLAuth =
@@ -88,8 +92,6 @@ public class SQL {
         ResultSet result = executeQuery("SELECT * FROM WarnedUsers WHERE UserID = '" + id + "'");
         if (result.next()) {
             executeUpdate("UPDATE WarnedUsers SET WarnedTime = " + warnedTime + " WHERE UserID = '" + id + "'");
-            //executeUpdate("DELETE FROM WarnedUsers WHERE UserID = '" + id + "'");
-            //executeUpdate("INSERT INTO WarnedUsers VALUES('" + id + "', '" + warnedTime + "')");
         } else
             executeUpdate("INSERT INTO WarnedUsers VALUES('" + id + "', '" + warnedTime + "')");
     }
@@ -120,8 +122,6 @@ public class SQL {
 
     public static void setTicketNumberInSQL(int id) throws SQLException {
         Debug.p("SQL", "SetTicketIDInSQL", "SetTicketIDInSQL successfully started!");
-        //executeUpdate("DELETE FROM TicketID");
-        //executeUpdate("INSERT INTO TicketID VALUES('" + id + "')");
         executeUpdate("UPDATE TicketID SET ID = " + id + " WHERE Data = 'ID'");
     }
 
@@ -182,9 +182,5 @@ public class SQL {
                 userName + "', '" +
                 content.replaceAll("'", "") +
                 "')");
-    }
-
-    public static void exceptionLoggerSQL() {
-
     }
 }

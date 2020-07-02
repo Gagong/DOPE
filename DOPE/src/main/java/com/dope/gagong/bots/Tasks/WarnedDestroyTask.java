@@ -26,65 +26,81 @@ public class WarnedDestroyTask extends TimerTask {
     @Override
     public void run() {
         JDA jda = JDAProtocol.JDA;
-        try {
-            ResultSet sqlResult = SQL.getWarnedUsersFromSQL();
-            while (sqlResult.next()) {
-                String UID = sqlResult.getString("UserID");
-                String warnedTime = sqlResult.getString("WarnedTime");
-                WarnedUsers.put(UID, warnedTime);
-            }
-            WarnedUsers.forEach((k, v) -> {
-                Instant instant = Instant.parse(v);
-                Duration timeElapsed = Duration.between(instant, Instant.now());
+        if (SQL.connected) {
+            try {
+                ResultSet sqlResult = SQL.getWarnedUsersFromSQL();
+                while (sqlResult.next()) {
+                    String UID = sqlResult.getString("UserID");
+                    String warnedTime = sqlResult.getString("WarnedTime");
+                    WarnedUsers.put(UID, warnedTime);
+                }
+                WarnedUsers.forEach((k, v) -> {
+                    Instant instant = Instant.parse(v);
+                    Duration timeElapsed = Duration.between(instant, Instant.now());
 
-                if (timeElapsed.toHours() >= 24) {
-                    Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
-                            .removeRoleFromMember(Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
-                                    .getMember(Objects.requireNonNull(jda.getUserById(k)))), Objects.requireNonNull(jda.getRoleById(Roles.WARNED))).queue();
-                    EmbedBuilder log = new EmbedBuilder();
-                    log.setTitle("SYNC: Removed Warned role event!");
-                    log.setDescription("Removed from: " + Objects.requireNonNull(jda.getUserById(k)).getName() + "\nID: " + k + "\nWarned Time: " + instant);
-                    log.setAuthor("DOPE MODERATION", null, null);
-                    log.setColor(Color.green);
-                    log.setTimestamp(Instant.now());
-                    Objects.requireNonNull(jda.getTextChannelById(Channels.WARNED_ARCHIVE)).sendMessage(log.build()).queue();
+                    if (timeElapsed.toHours() >= 24) {
+                        if (jda.getGuildById(Channels.MAIN_SERVER).getMemberById(k) != null) {
+                            Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
+                                    .removeRoleFromMember(Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
+                                            .getMember(Objects.requireNonNull(jda.getUserById(k)))), Objects.requireNonNull(jda.getRoleById(Roles.WARNED))).queue();
+                            EmbedBuilder log = new EmbedBuilder();
+                            log.setTitle("SYNC: Removed Warned role event!");
+                            log.setDescription("Removed from: " + Objects.requireNonNull(jda.getUserById(k)).getName() + "\nID: " + k + "\nWarned Time: " + instant);
+                            log.setAuthor("DOPE MODERATION", null, null);
+                            log.setColor(Color.green);
+                            log.setTimestamp(Instant.now());
+                            Objects.requireNonNull(jda.getTextChannelById(Channels.WARNED_ARCHIVE)).sendMessage(log.build()).queue();
+                            try {
+                                SQL.deleteWarnedUserFromSQL(k);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                            Debug.p("WarnedDestroyTask", "WarnedDestroy", "Warned from user [" + k + "] successfully destroyed!");
+                        } else {
+                            try {
+                                Debug.p("WarnedDestroyTask", "WarnedDestroyFromUserLeft", "User [" + k + "] leave from server, but we successfully destroy his warned!");
+                                SQL.deleteWarnedUserFromSQL(k);
+                            } catch (SQLException throwables) {
+                                throwables.printStackTrace();
+                            }
+                        }
+
+
+                    } else
+                        Debug.p("WarnedDestroyTask", "CheckAllWarnedUsersInSQL", "User [" + k + "] with TimeElapsed [" + timeElapsed.toHours() + "], skipped!");
+                });
+                List<Member> Members = Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER)).getMembers();
+                Members.forEach(member -> {
+                    List<Role> roles = member.getRoles();
+                    roles.forEach(role -> {
+                        if (role.getId().equals(Roles.WARNED))
+                            ServerWarnedUsers.add(member.getId());
+                    });
+                });
+                ServerWarnedUsers.forEach(user -> {
                     try {
-                        SQL.deleteWarnedUserFromSQL(k);
+                        if (!SQL.getWarnedUserFromSQLByID(user)) {
+                            Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
+                                    .removeRoleFromMember(Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
+                                            .getMember(Objects.requireNonNull(jda.getUserById(user)))), Objects.requireNonNull(jda.getRoleById(Roles.WARNED))).queue();
+                            EmbedBuilder log = new EmbedBuilder();
+                            log.setTitle("SYNC: Removed Warned role event!");
+                            log.setDescription("Removed from: " + Objects.requireNonNull(jda.getUserById(user)).getName() + "\nID: " + user + "\nWarned Time: NO DATA!");
+                            log.setAuthor("DOPE MODERATION", null, null);
+                            log.setColor(Color.green);
+                            log.setTimestamp(Instant.now());
+                            Objects.requireNonNull(jda.getTextChannelById(Channels.WARNED_ARCHIVE)).sendMessage(log.build()).queue();
+                            Debug.p("WarnedDestroyTask", "CheckWarnedUsersOnServer", "User [" + user + "] have not record in SQC, destroyed!");
+                        } else
+                            Debug.p("WarnedDestroyTask", "CheckWarnedUsersOnServer", "User [" + user + "] have record in SQC, skipped!");
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                } else
-                    Debug.p("WarnedDestroyTask", "CheckAllWarnedUsersInSQL", "User [" + k + "] with TimeElapsed [" + timeElapsed.toHours() + "], skipped!");
-            });
-            List<Member> Members = Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER)).getMembers();
-            Members.forEach(member -> {
-                List<Role> roles = member.getRoles();
-                roles.forEach(role -> {
-                    if (role.getId().equals(Roles.WARNED))
-                        ServerWarnedUsers.add(member.getId());
                 });
-            });
-            ServerWarnedUsers.forEach(user -> {
-                try {
-                    if (!SQL.getWarnedUserFromSQLByID(user)) {
-                        Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
-                                .removeRoleFromMember(Objects.requireNonNull(Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER))
-                                        .getMember(Objects.requireNonNull(jda.getUserById(user)))), Objects.requireNonNull(jda.getRoleById(Roles.WARNED))).queue();
-                        EmbedBuilder log = new EmbedBuilder();
-                        log.setTitle("SYNC: Removed Warned role event!");
-                        log.setDescription("Removed from: " + Objects.requireNonNull(jda.getUserById(user)).getName() + "\nID: " + user + "\nWarned Time: NO DATA!");
-                        log.setAuthor("DOPE MODERATION", null, null);
-                        log.setColor(Color.green);
-                        log.setTimestamp(Instant.now());
-                        Objects.requireNonNull(jda.getTextChannelById(Channels.WARNED_ARCHIVE)).sendMessage(log.build()).queue();
-                    } else
-                        Debug.p("WarnedDestroyTask", "CheckWarnedUsersOnServer", "User [" + user + "] have record in SQC, skipped!");
-                } catch (SQLException throwables) {
-                    throwables.printStackTrace();
-                }
-            });
-        } catch (SQLException throwables) {
-            throwables.printStackTrace();
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
         }
+
     }
 }

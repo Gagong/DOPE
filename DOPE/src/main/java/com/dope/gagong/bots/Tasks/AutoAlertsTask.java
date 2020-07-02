@@ -14,12 +14,10 @@ public class AutoAlertsTask extends TimerTask {
     private String LAST_ALERT = "";
     private boolean IS_OUTDATED = false;
     private boolean IS_MAINTENANCE = false;
-
     private boolean SET_GAME_ONLINE = false;
     private boolean PUSH_DO_UPDATE_ALERT = false;
     private boolean PUSH_MAINTENANCE_ALERT = false;
     private boolean PUSH_DOPE_UPDATE_ALERT = false;
-
     private final Channels Channels = new Channels();
     private static final JDA jda = JDAProtocol.JDA;
 

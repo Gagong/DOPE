@@ -31,10 +31,6 @@ public class Debug {
         System.err.println("[" + packet + "] | <" + function + "> | " + bool);
     }
 
-    public static void s(String packet, String function, String[] string) {
-        System.err.println("[" + packet + "] | <" + function + "> | " + string);
-    }
-
     public static void d(String packet, String function, Date date) {
         System.err.println("[" + packet + "] | <" + function + "> | " + date);
     }

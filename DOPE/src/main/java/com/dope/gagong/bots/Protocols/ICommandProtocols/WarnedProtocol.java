@@ -59,11 +59,9 @@ public class WarnedProtocol implements ICommand {
                         case 4:
                             event.getTextChannel().sendMessage("**" + Tag.asMember(user.getId()) + " you have been warned, muted for 3 days and kicked after 4 warnings by " + Tag.asMember(event.getAuthor().getId()) + "!**").queue();
                             event.getTextChannel().sendMessage("-automute " + user.getId() + " 2160").queue();
-                            user.openPrivateChannel().queue(privateChannel -> {
-                                privateChannel.sendMessage("Hello, " + Tag.asMember(user.getId()) + "!\n" +
-                                        "You have been kicked from DOPE server after 4 warnings!'n" +
-                                        "**Please follow the communication rules and server rules!**").queue();
-                            });
+                            user.openPrivateChannel().queue(privateChannel -> privateChannel.sendMessage("Hello, " + Tag.asMember(user.getId()) + "!\n" +
+                                    "You have been kicked from DOPE server after 4 warnings!'n" +
+                                    "**Please follow the communication rules and server rules!**").queue());
                             try {
                                 event.getGuild().kick(Objects.requireNonNull(event.getGuild().getMemberById(user.getId()))).queue();
                             } catch (HierarchyException exception) {
