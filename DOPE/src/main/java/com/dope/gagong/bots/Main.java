@@ -21,7 +21,7 @@ public class Main {
         Debug.p("Main", "Initialization", "LanguageQueryProtocol initialized!");
         if (SystemUtils.IS_OS_LINUX) {
             ProcessBuilder process = new ProcessBuilder();
-            process.command("bash", "-c", "python ./Run-DOPE.py");
+            process.command("bash", "-c", "python3 ./Run-DOPE.py");
             Process p = process.start();
             Debug.p("Main", "Initialization", "RUNLOG successfully started!");
         } else Debug.p("Main", "Initialization", "Unsupported OS for run RUNLOG!");
