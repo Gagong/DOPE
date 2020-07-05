@@ -14,12 +14,16 @@ public class Main {
         JDAProtocol.ExecuteJDAProtocol();
         SQL.connectToSQL();
         Thread.sleep(1000);
+        Debug.p("Main", "Initialization", "JDA & SQL successfully loaded & connected!");
         CommandQueryProtocol.ExecuteMainProtocol();
+        Debug.p("Main", "Initialization", "CommandQueryProtocol initialized!");
         LanguageQueryProtocol.ExecuteLanguageQueryProtocol();
+        Debug.p("Main", "Initialization", "LanguageQueryProtocol initialized!");
         if (SystemUtils.IS_OS_LINUX) {
             ProcessBuilder process = new ProcessBuilder();
             process.command("bash", "-c", "python ./Run-DOPE.py");
             Process p = process.start();
+            Debug.p("Main", "Initialization", "RUNLOG successfully started!");
         } else Debug.p("Main", "Initialization", "Unsupported OS for run RUNLOG!");
     }
 }

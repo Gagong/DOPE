@@ -27,6 +27,7 @@ public class CommandQueryProtocol {
         RegisterCommandProtocol("share", new ShareProfileProtocol());
         RegisterCommandProtocol("squad", new SquadProtocol());
         RegisterCommandProtocol("status", new StatusProtocol());
+        RegisterCommandProtocol("team", new TeamProtocol());
         RegisterCommandProtocol("version", new VersionProtocol());
         RegisterCommandProtocol("warn", new WarnedProtocol());
 

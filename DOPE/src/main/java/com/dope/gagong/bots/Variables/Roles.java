@@ -5,4 +5,5 @@ public class Roles {
     public String WARNED = "609398845691920396";
     public String STAFF = "623943061776498688";
     public String DEVELOPERS = "598178392503877632";
+    public String TEAM = "728929426800377867";
 }

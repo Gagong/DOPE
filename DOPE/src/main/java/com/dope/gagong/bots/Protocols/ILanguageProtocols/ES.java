@@ -25,13 +25,13 @@ public class ES implements ILanguage {
         String name = (Objects.requireNonNull(event.getMember()).getNickname() == null) ? event.getMember().getEffectiveName() : event.getMember().getNickname();
 
         event.getTextChannel().sendMessage("¡Hola, " + Tag.asMember(event.getMember().getId()) + "!\n\n" +
-                "Abres un nuevo boleto:\n" +
+                "Abres un nuevo ticket:\n" +
                 "`ID: " + event.getTextChannel().getName().split(Variables.CHANNEL_PATTERN)[1] + "`\n" +
                 "`Hora: " + formatter.format(date) + "`\n" +
                 "`Creador: " + name + " | " + event.getMember().getId() + "`\n\n" +
                 "> Proporcione tanta información como sea posible para que podamos resolver su problema más rápido.\n" +
-                "> El soporte estará con usted en breve (también puede etiquetar cualquier soporte para ayudarlo más rápido).\n" +
-                "> Si es posible, adjunte capturas de pantalla, registros GIF o DOPE (ruta de registros DOPE: `%appdata%\\DOPE\\Logs`).\n\n" +
+                "> El soporte estará con usted en breve (también puede etiquetar a cualquier soporte para ayudarlo más rápido).\n" +
+                "> Si es posible, adjunte capturas de pantalla, registros GIF o DOPE (ruta de registros de DOPE: `%appdata%\\DOPE\\Logs`).\n\n" +
                 "Para cerrar este ticket, haga clic en :lock:")
                 .queue(message -> message.addReaction(Variables.LOCK).queue());
         event.getTextChannel().getManager().putPermissionOverride(event.getMember(), EnumSet.of(

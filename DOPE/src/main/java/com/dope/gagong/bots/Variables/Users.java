@@ -15,6 +15,7 @@ public class Users {
     public String Sumi = "214092234285514753";
     public String era = "206781133596262401";
     public String Fabio = "237666016740507649";
+    public String Faplord = "422782459071954944";
 
     public String DOPE = "609397286757466133";
     public String BLACK_DOPE = "670367326356504604";

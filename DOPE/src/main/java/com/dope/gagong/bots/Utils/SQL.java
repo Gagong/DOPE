@@ -30,6 +30,7 @@ public class SQL {
     public static void connectToSQL() throws SQLException, ClassNotFoundException {
         SQL = SQLConnection();
         statement = Statement(SQL);
+        statement.executeUpdate("DELETE FROM Logger");
     }
 
     private static Connection SQLConnection() throws SQLException, ClassNotFoundException {
