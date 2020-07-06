@@ -2,7 +2,10 @@ package com.dope.gagong.bots.Utils;
 
 import com.dope.gagong.bots.Debug.Debug;
 import com.dope.gagong.bots.Protocols.JDAProtocol;
+import com.dope.gagong.bots.Variables.Channels;
+import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Role;
 import org.apache.commons.lang3.SystemUtils;
 
 import java.sql.*;
@@ -22,6 +25,8 @@ public class SQL {
     private static final String user = "SA";
     private static final String password = "OKxzIobOenFXrihKch1RcMFE";
 
+    private static final Channels Channels = new Channels();
+
     public static Connection SQL = null;
     public static Statement statement = null;
 
@@ -31,6 +36,41 @@ public class SQL {
         SQL = SQLConnection();
         statement = Statement(SQL);
         statement.executeUpdate("DELETE FROM Logger");
+        updateRolesList();
+        updateChannelsList();
+    }
+
+    private static void updateRolesList() throws SQLException {
+        statement.executeUpdate("DELETE FROM Roles");
+        List<Role> roles = Objects.requireNonNull(JDAProtocol.JDA.getGuildById(Channels.MAIN_SERVER)).getRoles();
+        roles.forEach(role -> {
+            try {
+                statement.executeUpdate("INSERT INTO Roles VALUES('" + role.getName() + "', '" + role.getId() + "')");
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
+    }
+
+    private static void updateChannelsList() throws SQLException {
+        statement.executeUpdate("DELETE FROM Channels");
+        List<GuildChannel> channels = JDAProtocol.JDA.getGuildById(Channels.MAIN_SERVER).getChannels();
+        channels.forEach(channel -> {
+            if (!channel.getName().contains("ticket-")) {
+                try {
+                    String parent = channel.getType().equals(ChannelType.CATEGORY) ? "" : channel.getParent().getName().replaceAll("[^a-zA-Z0-9 ]", "");
+                    statement.executeUpdate("INSERT INTO Channels VALUES('" + parent + "', '" +
+                            channel.getType() + "', '" +
+                            channel.getName().replaceAll("[^-a-zA-Z0-9 :]", "") + "', '" +
+                            channel.getId() + "', '" +
+                            channel.getPosition() + "', '" +
+                            channel.getPositionRaw() + "')"
+                    );
+                } catch (SQLException throwables) {
+                    throwables.printStackTrace();
+                }
+            }
+        });
     }
 
     private static Connection SQLConnection() throws SQLException, ClassNotFoundException {

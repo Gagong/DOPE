@@ -9,7 +9,7 @@ webhook = "https://discordapp.com/api/webhooks/725716864298123355/0YtPPth5bk9oIp
 now = datetime.datetime.now()
 data = {}
 embed = {}
-version = "15"
+version = "16"
 time = now.strftime('%d.%m.%y %H:%M:%S')
 
 data["username"] = "DOPE RUNLOG"

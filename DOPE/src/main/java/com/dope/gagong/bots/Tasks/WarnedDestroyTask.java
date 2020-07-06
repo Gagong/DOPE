@@ -28,7 +28,7 @@ public class WarnedDestroyTask extends TimerTask {
         JDA jda = JDAProtocol.JDA;
         if (SQL.connected) {
             try {
-                List<Member> Members = Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER)).getMembers();
+                /*List<Member> Members = Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER)).getMembers();
                 Members.forEach(member -> {
                     List<Role> roles = member.getRoles();
                     roles.forEach(role -> {
@@ -55,7 +55,8 @@ public class WarnedDestroyTask extends TimerTask {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                });
+                });*/
+
                 ResultSet sqlResult = SQL.getWarnedUsersFromSQL();
                 while (sqlResult.next()) {
                     String UID = sqlResult.getString("UserID");
@@ -80,14 +81,14 @@ public class WarnedDestroyTask extends TimerTask {
                             Objects.requireNonNull(jda.getTextChannelById(Channels.WARNED_ARCHIVE)).sendMessage(log.build()).queue();
                             try {
                                 SQL.deleteWarnedUserFromSQL(k);
+                                Debug.p("WarnedDestroyTask", "WarnedDestroy", "Warned from user [" + k + "] successfully destroyed!");
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
-                            Debug.p("WarnedDestroyTask", "WarnedDestroy", "Warned from user [" + k + "] successfully destroyed!");
                         } else {
                             try {
-                                Debug.p("WarnedDestroyTask", "WarnedDestroyFromUserLeft", "User [" + k + "] leave from server, but we successfully destroy his warned!");
                                 SQL.deleteWarnedUserFromSQL(k);
+                                Debug.p("WarnedDestroyTask", "WarnedDestroyFromUserLeft", "User [" + k + "] leave from server, but we successfully destroy his warned!");
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
                             }
