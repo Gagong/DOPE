@@ -4,11 +4,9 @@
     <list default="true" id="ae965921-11be-407f-b62f-6144b30c694c" name="Default Changelist" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Tasks/WarnedDestroyTask.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Tasks/WarnedDestroyTask.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Utils/SQL.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/com/dope/gagong/bots/Utils/SQL.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/Run-DOPE.py" beforeDir="false" afterPath="$PROJECT_DIR$/target/Run-DOPE.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SQL_Bots-Preview-jar-with-dependencies.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SQL_Bots-Preview-jar-with-dependencies.jar" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/target/SQL_Bots-Preview.jar" beforeDir="false" afterPath="$PROJECT_DIR$/target/SQL_Bots-Preview.jar" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Main.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/com/dope/gagong/bots/Main.class" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -45,7 +43,7 @@
     <property name="project.structure.side.proportion" value="0.0" />
     <property name="restartRequiresConfirmation" value="false" />
   </component>
-  <component name="RunManager" selected="Application.Main">
+  <component name="RunManager" selected="Maven.Maven">
     <configuration name="Main" type="Application" factoryName="Application">
       <option name="ALTERNATIVE_JRE_PATH" value="openjdk-14" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="true" />
@@ -109,6 +107,8 @@
       <workItem from="1593860288675" duration="1005000" />
       <workItem from="1593976483804" duration="1335000" />
       <workItem from="1594022346781" duration="9097000" />
+      <workItem from="1594218270645" duration="519000" />
+      <workItem from="1594218849457" duration="300000" />
     </task>
     <servers />
   </component>

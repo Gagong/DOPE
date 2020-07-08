@@ -28,7 +28,7 @@ public class WarnedDestroyTask extends TimerTask {
         JDA jda = JDAProtocol.JDA;
         if (SQL.connected) {
             try {
-                /*List<Member> Members = Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER)).getMembers();
+                List<Member> Members = Objects.requireNonNull(jda.getGuildById(Channels.MAIN_SERVER)).getMembers();
                 Members.forEach(member -> {
                     List<Role> roles = member.getRoles();
                     roles.forEach(role -> {
@@ -44,7 +44,7 @@ public class WarnedDestroyTask extends TimerTask {
                                             .getMember(Objects.requireNonNull(jda.getUserById(user)))), Objects.requireNonNull(jda.getRoleById(Roles.WARNED))).queue();
                             EmbedBuilder log = new EmbedBuilder();
                             log.setTitle("SYNC: Remove Warned role event!");
-                            log.setDescription("Removed from: " + Objects.requireNonNull(jda.getUserById(user)).getName() + "\nID: " + user + "\nWarned Time: NO DATA!");
+                            log.setDescription("Removed from: " + Objects.requireNonNull(jda.getUserById(user)).getName() + "\nID: " + user + "\nReason: Unknown Warned role!");
                             log.setAuthor("DOPE MODERATION", null, null);
                             log.setColor(Color.green);
                             log.setTimestamp(Instant.now());
@@ -55,7 +55,7 @@ public class WarnedDestroyTask extends TimerTask {
                     } catch (SQLException throwables) {
                         throwables.printStackTrace();
                     }
-                });*/
+                });
 
                 ResultSet sqlResult = SQL.getWarnedUsersFromSQL();
                 while (sqlResult.next()) {
@@ -80,7 +80,10 @@ public class WarnedDestroyTask extends TimerTask {
                             log.setTimestamp(Instant.now());
                             Objects.requireNonNull(jda.getTextChannelById(Channels.WARNED_ARCHIVE)).sendMessage(log.build()).queue();
                             try {
-                                SQL.deleteWarnedUserFromSQL(k);
+                                if (SQL.getWarnedUserFromSQLByID(k))
+                                    SQL.deleteWarnedUserFromSQL(k);
+                                else
+                                    Debug.p("WarnedDestroyTask", "WarnedDestroy", "Unknown exception, skipped!");
                                 Debug.p("WarnedDestroyTask", "WarnedDestroy", "Warned from user [" + k + "] successfully destroyed!");
                             } catch (SQLException throwables) {
                                 throwables.printStackTrace();
@@ -96,7 +99,8 @@ public class WarnedDestroyTask extends TimerTask {
                     } else
                         Debug.p("WarnedDestroyTask", "CheckAllWarnedUsersInSQL", "User [" + k + "] with TimeElapsed [" + timeElapsed.toHours() + "], skipped!");
                 });
-
+            WarnedUsers.clear();
+            ServerWarnedUsers.clear();
             } catch (SQLException throwables) {
                 throwables.printStackTrace();
             }
