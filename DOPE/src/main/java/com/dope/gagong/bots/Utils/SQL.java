@@ -5,6 +5,7 @@ import com.dope.gagong.bots.Protocols.JDAProtocol;
 import com.dope.gagong.bots.Variables.Channels;
 import net.dv8tion.jda.api.entities.ChannelType;
 import net.dv8tion.jda.api.entities.GuildChannel;
+import net.dv8tion.jda.api.entities.Member;
 import net.dv8tion.jda.api.entities.Role;
 import org.apache.commons.lang3.SystemUtils;
 
@@ -36,8 +37,40 @@ public class SQL {
         SQL = SQLConnection();
         statement = Statement(SQL);
         statement.executeUpdate("DELETE FROM Logger");
-        updateRolesList();
-        updateChannelsList();
+        //updateRolesList();
+        //updateChannelsList();
+        //updateUserRolesList();
+    }
+
+    private static void updateUserRolesList() throws SQLException {
+        statement.executeUpdate("DROP TABLE UserRoles");
+        ResultSet roles = statement.executeQuery("SELECT * FROM Roles");
+        StringBuilder tableColumns = new StringBuilder();
+        tableColumns.append("UserID varchar(255), ");
+        while (roles.next()) {
+            String name = roles.getString("RoleName");
+            if (!name.equals("@everyone"))
+                tableColumns.append("[").append(name).append("] bit default 0, ");
+            else
+                tableColumns.append("[").append(name).append("] bit default 1");
+        }
+        statement.executeUpdate("CREATE TABLE UserRoles (" + tableColumns + ")");
+        List<Member> members = JDAProtocol.JDA.getGuildById(Channels.MAIN_SERVER).getMembers();
+        members.forEach(member -> {
+            List<Role> userRoles = member.getRoles();
+            try {
+                statement.executeUpdate("INSERT INTO UserRoles(UserID) VALUES(" + member.getId() + ")");
+                userRoles.forEach(role -> {
+                    try {
+                        statement.executeUpdate("UPDATE UserRoles SET [" + role.getName() + "] = 1 WHERE UserID = '" + member.getId() + "'");
+                    } catch (SQLException throwables) {
+                        throwables.printStackTrace();
+                    }
+                });
+            } catch (SQLException throwables) {
+                throwables.printStackTrace();
+            }
+        });
     }
 
     private static void updateRolesList() throws SQLException {
@@ -214,7 +247,8 @@ public class SQL {
     }
 
     public static void logMessageSQL(String time, String chatType, String event, String guildName, String channelName, String userName, String content) throws SQLException {
-        statement.executeUpdate("INSERT INTO MessageLogger VALUES('" +
+        if (connected)
+            statement.executeUpdate("INSERT INTO MessageLogger VALUES('" +
                 time + "', '" +
                 chatType + "', '" +
                 event + "', '" +
